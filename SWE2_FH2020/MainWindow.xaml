@@ -6,7 +6,71 @@
         xmlns:local="clr-namespace:SWE2_FH2020"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Width" Value="100" />
+        </Style>
+    </Window.Resources>
 
-    </Grid>
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top">
+            <Button Background="Aqua" DockPanel.Dock="Left">
+                <TextBlock Text="File" />
+            </Button>
+            <Button Background="Red" DockPanel.Dock="Left">
+                <TextBlock Text="Edit" />
+            </Button>
+            <Button Background="Yellow" DockPanel.Dock="Left">
+                <TextBlock Text="Option" />
+            </Button>
+            <Button Background="White" DockPanel.Dock="Right">
+                <TextBlock Text="Help" />
+            </Button>
+            <Border></Border>
+        </DockPanel>
+        <TextBox DockPanel.Dock="Top">
+            <!-- Quelle: https://stackoverflow.com/questions/7425618/how-can-i-add-a-hint-text-to-wpf-textbox -->
+            <TextBox.Style>
+                <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                    <Style.Resources>
+                        <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                            <VisualBrush.Visual>
+                                <Label Content="Search" Foreground="LightGray" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Style.Resources>
+                    <Style.Triggers>
+                        <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="Background" Value="White" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock FontSize="55" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap">Left side</TextBlock>
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
+            <TextBlock Grid.Column="2" FontSize="55" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap">Right side</TextBlock>
+            <GridSplitter Grid.Row="1" Grid.ColumnSpan="3" Height="5" HorizontalAlignment="Stretch" />
+            <TextBlock Grid.Row="3" Grid.ColumnSpan="3" FontSize="55" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap">Bottom side</TextBlock>
+        </Grid>
+    </DockPanel>
+
 </Window>
