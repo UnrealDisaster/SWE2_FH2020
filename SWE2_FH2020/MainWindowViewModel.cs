@@ -12,7 +12,6 @@ namespace SWE2_FH2020
     {
         public MainWindowViewModel()
         {
-            EventHandler<PropertyChangedEventArgs> eh = new EventHandler<PropertyChangedEventArgs>(ChildChanged);
             _imageViewModel.PropertyChanged += (s, e) => OnPropertyChanged("selectedImage");
         }
         private ImageViewModel _imageViewModel = new ImageViewModel();
@@ -27,14 +26,10 @@ namespace SWE2_FH2020
             get {
                 if (_imageViewModel.selectedImage == null)
                 {
-                    return "nope ";
+                    return "";
                 }
                 return _imageViewModel.selectedImage.Source.ToString();
             }
-        }
-        public void ChildChanged(object sender, PropertyChangedEventArgs e)
-        {
-
         }
     }
 }
