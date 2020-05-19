@@ -5,13 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SWE2_FH2020"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="800" Width="1600">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Width" Value="100" />
         </Style>
     </Window.Resources>
-
     <DockPanel>
         <DockPanel DockPanel.Dock="Top">
             <Button Background="Aqua" DockPanel.Dock="Left">
@@ -28,8 +27,9 @@
             </Button>
             <Border></Border>
         </DockPanel>
+
+        <!--Quelle: https://stackoverflow.com/questions/7425618/how-can-i-add-a-hint-text-to-wpf-textbox-->
         <TextBox DockPanel.Dock="Top">
-            <!-- Quelle: https://stackoverflow.com/questions/7425618/how-can-i-add-a-hint-text-to-wpf-textbox -->
             <TextBox.Style>
                 <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
                     <Style.Resources>
@@ -65,12 +65,20 @@
                 <RowDefinition Height="5" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <TextBlock FontSize="55" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap">Left side</TextBlock>
+            <Image Grid.Row="0" Grid.Column="0"  Source="{Binding selectedImage}" />
             <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
-            <TextBlock Grid.Column="2" FontSize="55" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap">Right side</TextBlock>
+            <TextBlock Grid.Row="0" Grid.Column="3" FontSize="55">123</TextBlock>
             <GridSplitter Grid.Row="1" Grid.ColumnSpan="3" Height="5" HorizontalAlignment="Stretch" />
-            <TextBlock Grid.Row="3" Grid.ColumnSpan="3" FontSize="55" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap">Bottom side</TextBlock>
+
+            <ScrollViewer Grid.Row="3" Grid.ColumnSpan="3" DataContext="{Binding ImageViewModel}" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" >
+                <ItemsControl ItemsSource="{Binding PictureList}" BorderThickness="0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"></StackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
         </Grid>
     </DockPanel>
-
 </Window>
