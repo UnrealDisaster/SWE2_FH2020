@@ -15,6 +15,18 @@ namespace SWE2_FH2020
     public class ImageViewModel : ViewModel
     {
 
+        private string _filter = "";
+
+        public string filter {
+            get {
+                return _filter;
+            }
+            set {
+                _filter = value;
+                OnPropertyChanged("PictureList");
+            }
+        }
+
         private Image _selectedImage = null;
 
         public Image selectedImage {
@@ -22,7 +34,6 @@ namespace SWE2_FH2020
                 return _selectedImage;
             }
         }
-
         List<Border> _pictureList = null;
         public IEnumerable<Border> PictureList {
             get {
@@ -41,30 +52,47 @@ namespace SWE2_FH2020
                         var uri = new Uri(fileName, UriKind.Absolute);
                         var bmi = new BitmapImage(uri);
                         img.Source = bmi;
-                        _selectedImage = img;
+                        b.ToolTip = fileName.Split('\\').Last();
                         b.Child = img;
-                        b.MouseDown += MouseButtonDownHandler1;
+                        b.MouseDown += MouseButtonDownHandler;
                         list.Add(b);
                     }
+
+                    _selectedImage = (Image)list.Last().Child;
                     _pictureList = list;
                 }
+
+                if(filter.Length > 0)
+                {
+                    List<Border> temp = new List<Border>();
+                    foreach(Border b in _pictureList)
+                    {
+                        Console.WriteLine("toolTip: " + b.ToolTip.ToString());
+                        if (b.ToolTip.ToString().StartsWith(filter))
+                            temp.Add(b);
+                    }
+                    Console.WriteLine("Returned Filterd !!! ");
+                    return temp;
+                }
+
+                Console.WriteLine("Returned Un-Filterd !!! ");
                 return _pictureList;
             }
         }
 
-        private void ResetBorder()
+        private void ResetBorders()
         {
             foreach ( var b in _pictureList)
             {
                 b.BorderBrush = Brushes.White;
             }
         }
-        private void MouseButtonDownHandler1(object sender, MouseButtonEventArgs e)
+        private void MouseButtonDownHandler(object sender, MouseButtonEventArgs e)
         {
             if (sender is Border)
             {
                 var b = (Border)sender;
-                ResetBorder();
+                ResetBorders();
                 b.BorderBrush = Brushes.Red;
                 _selectedImage = (Image)b.Child;
                 OnPropertyChanged("selectedImage");
