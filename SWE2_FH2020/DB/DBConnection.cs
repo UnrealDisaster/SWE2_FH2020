@@ -10,6 +10,7 @@ namespace SWE2_FH2020.DB
 {
     public sealed class DBConnection
     {
+        //Singleton pattern for db connection, so only one connection is established
         DBConnection()
         {
         }
@@ -30,10 +31,36 @@ namespace SWE2_FH2020.DB
             }
         }
 
-        public int DBConnectidasdasdasd()
+        public void DBConnecting()
         {
-            Console.WriteLine("WTF");
-            return 5;
+            // Example for new db functions
+            // Example to call singleton function
+            // DBConnection.Instance.DBConnecting();
+            string connstring = "Server=127.0.0.1; Port=5432; User ID=postgres; Password=postgres;Database=postgres;";
+            NpgsqlConnection db = new NpgsqlConnection(connstring);
+            db.Open();
+            NpgsqlCommand cmd = new NpgsqlCommand("Select * from test where temp_id = 1", db);
+            try
+            {
+                cmd.Prepare();
+            }
+            catch
+            {
+                Console.WriteLine("Invalid query");
+            }
+
+            NpgsqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                DateTime itsTime = reader.GetDateTime(2);
+                int test = reader.GetInt32(1);
+                Console.WriteLine(test.ToString(), itsTime);
+            }
+            cmd.Dispose();
+            reader.Close();
+            db.Close();
+            //return db;
         }
 
     }
