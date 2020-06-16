@@ -34,3 +34,9 @@ CREATE TABLE picture (
 	CONSTRAINT "ck_pk_iptc_id" FOREIGN KEY ("fk_pk_iptc_id") REFERENCES "iptc" ("pk_iptc_id"),
 	CONSTRAINT "ck_pk_fotograf_id" FOREIGN KEY ("fk_pk_fotograf_id") REFERENCES "fotograf" ("pk_fotograf_id")
 );
+
+INSERT INTO fotograf (vorname,nachname,geburtsdatum)
+VALUES
+('pepe','thefrog','3.2.2012'),
+('Daniel','Krottendorfer','2.23.1996'),
+('Marius','Hochwald','6.9.420');

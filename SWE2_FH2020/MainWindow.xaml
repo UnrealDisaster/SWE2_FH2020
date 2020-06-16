@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SWE2_FH2020"
+        xmlns:ctrls="clr-namespace:Wpf.Controls"
         
         xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
         mc:Ignorable="d"
@@ -24,6 +25,8 @@
             <Button Background="Yellow" DockPanel.Dock="Left">
                 <TextBlock Text="Option" />
             </Button>
+            <ctrls:CommandButton CommandViewModel="{Binding LayoutsCommand}"/>
+
             <Button Background="White" DockPanel.Dock="Right">
                 <TextBlock Text="Help" />
             </Button>
@@ -75,7 +78,7 @@
                             <TextBlock Grid.Column="0" Text="Titel: "></TextBlock>
                             <TextBox Grid.Column="1" ></TextBox>
                         </Grid>
-                        <Button Content="Save"></Button>
+                        <Button Click="Button_Click" Content="Save"></Button>
 
                     </StackPanel>
                 </TabItem>

@@ -55,5 +55,25 @@ namespace SWE2_FH2020
                 return _imageViewModel.selectedImage.Source.ToString();
             }
         }
+
+
+
+        private ICommandViewModel _LayoutsCommand;
+        public ICommandViewModel LayoutsCommand {
+            get {
+                if (_LayoutsCommand == null)
+                {
+                    _LayoutsCommand = new SimpleCommandViewModel(
+                        "FotografInnen",
+                        "Öffnet das Layout Beispiel",
+                        () =>
+                        {
+                            var dlg = new FotografInnen();
+                            dlg.ShowDialog();
+                        });
+                }
+                return _LayoutsCommand;
+            }
+        }
     }
 }
