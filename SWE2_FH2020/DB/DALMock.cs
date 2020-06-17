@@ -130,5 +130,9 @@ namespace SWE2_FH2020
         {
             return setupPictureTest[2].getDirectory();
         }
+        public void dropRecreateTables()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

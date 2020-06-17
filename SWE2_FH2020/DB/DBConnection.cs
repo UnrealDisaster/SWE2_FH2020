@@ -301,5 +301,40 @@ namespace SWE2_FH2020
             cmd_editp.ExecuteNonQuery();
             cmd_editp.Dispose();
         }
+        public void dropRecreateTables()
+        {
+            NpgsqlConnection db = DBConnection.Instance.initialize();
+            NpgsqlCommand cmd_picture_drop = new NpgsqlCommand("DROP TABLE picture cascade;", db);
+            cmd_picture_drop.ExecuteNonQuery();
+            cmd_picture_drop.Dispose();
+
+            NpgsqlCommand cmd_exif_drop = new NpgsqlCommand("DROP TABLE picture cascade;", db);
+            cmd_exif_drop.ExecuteNonQuery();
+            cmd_exif_drop.Dispose();
+
+            NpgsqlCommand cmd_iptc_drop = new NpgsqlCommand("DROP TABLE picture cascade;", db);
+            cmd_iptc_drop.ExecuteNonQuery();
+            cmd_iptc_drop.Dispose();
+
+            NpgsqlCommand cmd_foto_drop = new NpgsqlCommand("DROP TABLE picture cascade;", db);
+            cmd_foto_drop.ExecuteNonQuery();
+            cmd_foto_drop.Dispose();
+
+            NpgsqlCommand cmd_foto_create = new NpgsqlCommand("CREATE TABLE fotograf (pk_fotograf_id serial PRIMARY KEY, vorname varchar(100) NOT NULL, nachname varchar(50) NOT NULL, geburtsdatum DATE NOT NULL, notiz varchar, CONSTRAINT 'ch_geburtsdatum' CHECK(geburtsdatum <= CURRENT_DATE)); ", db);
+            cmd_picture_drop.ExecuteNonQuery();
+            cmd_picture_drop.Dispose();
+
+            NpgsqlCommand cmd_exif_create = new NpgsqlCommand("CREATE TABLE exif (pk_exif_id serial PRIMARY KEY, iso_speed_ratings INT, make VARCHAR, date_time DATE, flash BOOLEAN, exposuretime VARCHAR); ", db);
+            cmd_exif_drop.ExecuteNonQuery();
+            cmd_exif_drop.Dispose();
+
+            NpgsqlCommand cmd_iptc_create = new NpgsqlCommand("CREATE TABLE iptc (pk_iptc_id serial PRIMARY KEY, date_created DATE, time_created TIME, by_line VARCHAR, copyright VARCHAR); ", db);
+            cmd_iptc_drop.ExecuteNonQuery();
+            cmd_iptc_drop.Dispose();
+
+            NpgsqlCommand cmd_picture_create = new NpgsqlCommand("CREATE TABLE picture (picture_id serial PRIMARY KEY, fk_pk_exif_id int NOT NULL, fk_pk_iptc_id int NOT NULL, fk_pk_fotograf_id int, directory VARCHAR NOT NULL, CONSTRAINT 'ck_pk_exif_id' FOREIGN KEY('fk_pk_exif_id') REFERENCES 'exif'('pk_exif_id'), CONSTRAINT 'ck_pk_iptc_id' FOREIGN KEY('fk_pk_iptc_id') REFERENCES 'iptc'('pk_iptc_id'), CONSTRAINT 'ck_pk_fotograf_id' FOREIGN KEY('fk_pk_fotograf_id') REFERENCES 'fotograf'('pk_fotograf_id') ON DELETE SET NULL); ", db);
+            cmd_picture_drop.ExecuteNonQuery();
+            cmd_picture_drop.Dispose();
+        }
     }
 }

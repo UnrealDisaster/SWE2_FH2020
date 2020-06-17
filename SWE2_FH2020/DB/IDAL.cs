@@ -17,6 +17,7 @@ namespace SWE2_FH2020
         void savePicture(Picture p);
         void setupPictures(List<Picture> pic);
         void editPhotographer(Photographer photogr);
+        void dropRecreateTables();
 
     }
 }
