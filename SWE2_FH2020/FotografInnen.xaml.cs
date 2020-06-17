@@ -22,5 +22,10 @@ namespace SWE2_FH2020
             DataContext = new FotografInnenViewModel();
             InitializeComponent();
         }
+        private void Delete_Fotograf(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+            Console.WriteLine(button.Tag);
+        }
     }
 }

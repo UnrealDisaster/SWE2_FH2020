@@ -109,7 +109,8 @@ namespace SWE2_FH2020
                 temp_photo.setVorname(reader_photo.GetString(1));
                 temp_photo.setNachname(reader_photo.GetString(2));
                 temp_photo.setDate(reader_photo.GetDateTime(3));
-                temp_photo.setNotiz(reader_photo.GetString(4));
+                if(!reader_photo.IsDBNull(4))
+                    temp_photo.setNotiz(reader_photo.GetString(4));
                 photographerList.Add(temp_photo);
             }
             reader_photo.Close();
