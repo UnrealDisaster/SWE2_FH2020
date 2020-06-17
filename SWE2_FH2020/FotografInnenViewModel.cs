@@ -76,7 +76,7 @@ namespace SWE2_FH2020
             }
         }
         public bool IsInputValid() {
-            string regExAllowed = "^([a-zA-Z])";
+            string regExAllowed = "^[a-zA-Z ]+$";
             if (Regex.IsMatch(Vorname, regExAllowed) && Regex.IsMatch(Nachname, regExAllowed) && Regex.IsMatch(Notiz, regExAllowed) && DateTime.Now > Geburtsdatum)
             {
                 return true;
