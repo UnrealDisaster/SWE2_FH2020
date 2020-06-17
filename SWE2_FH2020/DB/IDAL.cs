@@ -14,10 +14,9 @@ namespace SWE2_FH2020
         void deletePhotographer(string name);
         void addPhotographer(Photographer newPhotographer);
         Picture getPicture(int ID);
-        List<Exif> getExifData();
-        List<Iptc> getIptcData();
         void savePicture(Picture p);
-        void delete(Picture p);
+        void setupPictures(List<Picture> p);
+        void editPhotographer(Photographer photogr);
 
     }
 }

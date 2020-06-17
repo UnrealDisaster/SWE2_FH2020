@@ -27,5 +27,9 @@ namespace SWE2_FH2020
         {
             _dal.addPhotographer(newPhotographer);
         }
+        public List<Picture> getPictureList()
+        {
+            return _dal.getPictures();
+        }
     }
 }

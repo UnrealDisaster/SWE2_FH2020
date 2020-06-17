@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -32,7 +33,7 @@ namespace SWE2_FH2020
 
         public NpgsqlConnection initialize()
         {
-            string connstring = "Server=127.0.0.1; Port=5432; User ID=postgres; Password=postgres;Database=postgres;";
+            string connstring = ConfigurationManager.AppSettings.Get("DBUrl");
             NpgsqlConnection db = new NpgsqlConnection(connstring);
             db.Open();
             return db;
@@ -152,7 +153,7 @@ namespace SWE2_FH2020
         public void addPhotographer(Photographer newPhotographer)
         {
             NpgsqlConnection db = DBConnection.Instance.initialize();
-            NpgsqlCommand cmd_addphoto = new NpgsqlCommand("INSERT INTO fotograf(vorname, nachname, geburtsdatum, notiz) values (@p, @q, @r, @s", db);
+            NpgsqlCommand cmd_addphoto = new NpgsqlCommand("INSERT INTO fotograf(vorname, nachname, geburtsdatum, notiz) values (@p, @q, @r, @s)", db);
             cmd_addphoto.Parameters.AddWithValue("p", newPhotographer.getVorname());
             cmd_addphoto.Parameters.AddWithValue("q", newPhotographer.getNachname());
             cmd_addphoto.Parameters.AddWithValue("r", newPhotographer.getDate());
@@ -249,7 +250,7 @@ namespace SWE2_FH2020
             if(!reader_exif_check.Read())
             {
                 reader_exif_check.Close();
-                NpgsqlCommand cmd_exif = new NpgsqlCommand("INSERT INTO exif(iso_speed_ratings, make, date_time, flash, exposuretime) values (@p, @q, @r, @s, @t", db);
+                NpgsqlCommand cmd_exif = new NpgsqlCommand("INSERT INTO exif(iso_speed_ratings, make, date_time, flash, exposuretime) values (@p, @q, @r, @s, @t)", db);
                 cmd_exif.Parameters.AddWithValue("p", p.getExif().getIsoSpeedRating());
                 cmd_exif.Parameters.AddWithValue("q", p.getExif().getMake());
                 cmd_exif.Parameters.AddWithValue("r", p.getExif().getDateTime());
@@ -274,7 +275,7 @@ namespace SWE2_FH2020
             if (!reader_iptc_check.Read())
             {
                 reader_iptc_check.Close();
-                NpgsqlCommand cmd_iptc = new NpgsqlCommand("INSERT INTO iptc(date_created, time_created, by_line, copyright) values (@p, @q, @r, @s", db);
+                NpgsqlCommand cmd_iptc = new NpgsqlCommand("INSERT INTO iptc(date_created, time_created, by_line, copyright) values (@p, @q, @r, @s)", db);
                 cmd_iptc.Parameters.AddWithValue("p", p.getIptc().getDate());
                 cmd_iptc.Parameters.AddWithValue("q", p.getIptc().getTime());
                 cmd_iptc.Parameters.AddWithValue("r", p.getIptc().getByLine());
@@ -298,21 +299,30 @@ namespace SWE2_FH2020
             if (!reader_pic_check.Read())
             {
                 reader_pic_check.Close();
-                NpgsqlCommand cmd_pic = new NpgsqlCommand("INSERT INTO picture (fk_pk_exif_id, fk_pk_iptc_id, fk_pk_fotograf_id, directory) values (@p, @q, @r, @s", db);
+                NpgsqlCommand cmd_pic = new NpgsqlCommand("INSERT INTO picture (fk_pk_exif_id, fk_pk_iptc_id, fk_pk_fotograf_id, directory) values (@p, @q, @r, @s)", db);
                 cmd_pic.Parameters.AddWithValue("p", p.getExif().getId());
                 cmd_pic.Parameters.AddWithValue("q", p.getIptc().getId());
                 cmd_pic.Parameters.AddWithValue("r", p.getPhotographer().getId());
                 cmd_pic.Parameters.AddWithValue("s", p.getDirectory());
+                cmd_pic.ExecuteNonQuery();
+                cmd_pic.Dispose();
             }
         }
-        public void delete(Picture p)
+        public void setupPictures(List<Picture> p)
         {
 
         }
-        public List<Iptc> getIptcData()
+        public void editPhotographer(Photographer photogr)
         {
-            throw new NotImplementedException();
+            NpgsqlConnection db = DBConnection.Instance.initialize();
+            NpgsqlCommand cmd_editp = new NpgsqlCommand("UPDATE fotograf SET vorname = @p , nachname = @q , geburtsdatum = @r , notiz = @s WHERE pk_fotograf_id = @t", db);
+            cmd_editp.Parameters.AddWithValue("p", photogr.getVorname());
+            cmd_editp.Parameters.AddWithValue("q", photogr.getNachname());
+            cmd_editp.Parameters.AddWithValue("r", photogr.getDate());
+            cmd_editp.Parameters.AddWithValue("s", photogr.getNotiz());
+            cmd_editp.Parameters.AddWithValue("t", photogr.getId());
+            cmd_editp.ExecuteNonQuery();
+            cmd_editp.Dispose();
         }
-
     }
 }
