@@ -12,7 +12,10 @@ namespace SWE2_FH2020
         List<Photographer> getPhotographers();
         IEnumerable<string> photographerList();
         void deletePhotographer(string name);
+        void addPhotographer(Photographer newPhotographer);
         Picture getPicture(int ID);
+        List<Exif> getExifData();
+        List<Iptc> getIptcData();
         void savePicture(Picture p);
         void delete(Picture p);
 

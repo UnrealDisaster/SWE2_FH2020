@@ -87,6 +87,14 @@ namespace SWE2_FH2020
             reader_pic.Close();
             return pictureList;
         }
+        public List<Exif> getExifData()
+        {
+            List<Exif> ExifList = new List<Exif>();
+            NpgsqlConnection db = DBConnection.Instance.initialize();
+            NpgsqlCommand cmd_photo = new NpgsqlCommand("Select * from exif", db);
+
+            return ExifList;
+        }
         public List<Photographer> getPhotographers()
         {
             List<Photographer> photographerList = new List<Photographer>();
@@ -139,6 +147,26 @@ namespace SWE2_FH2020
             }
             cmd_delphoto.ExecuteNonQuery();
             cmd_delphoto.Dispose();
+        }
+
+        public void addPhotographer(Photographer newPhotographer)
+        {
+            NpgsqlConnection db = DBConnection.Instance.initialize();
+            NpgsqlCommand cmd_addphoto = new NpgsqlCommand("INSERT INTO fotograf(vorname, nachname, geburtsdatum, notiz) values (@p, @q, @r, @s", db);
+            cmd_addphoto.Parameters.AddWithValue("p", newPhotographer.getVorname());
+            cmd_addphoto.Parameters.AddWithValue("q", newPhotographer.getNachname());
+            cmd_addphoto.Parameters.AddWithValue("r", newPhotographer.getDate());
+            cmd_addphoto.Parameters.AddWithValue("s", newPhotographer.getNotiz());
+            try
+            {
+                cmd_addphoto.Prepare();
+            }
+            catch
+            {
+                Console.WriteLine("Invalid query");
+            }
+            cmd_addphoto.ExecuteNonQuery();
+            cmd_addphoto.Dispose();
         }
 
         public IEnumerable<string> photographerList()
@@ -281,7 +309,10 @@ namespace SWE2_FH2020
         {
 
         }
-
+        public List<Iptc> getIptcData()
+        {
+            throw new NotImplementedException();
+        }
 
     }
 }

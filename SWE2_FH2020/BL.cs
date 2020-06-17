@@ -22,5 +22,10 @@ namespace SWE2_FH2020
         {
             _dal.deletePhotographer(name);
         }
+
+        public void addPhotographer(Photographer newPhotographer)
+        {
+            _dal.addPhotographer(newPhotographer);
+        }
     }
 }

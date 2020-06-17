@@ -19,6 +19,17 @@ namespace SWE2_FH2020
 
         public void deletePhotographer(string name)
         {
+            List<string> names = new List<string>() { "Marius Hochwald", "Daniel Krottendorfer", "Barack Obama" };
+            foreach(string i in names)
+            {
+                if(i == name)
+                {
+                    names.Remove(i);
+                }
+            }
+        }
+        public void addPhotographer(Photographer newPhotographer)
+        {
             throw new NotImplementedException();
         }
         public Picture getPicture(int ID)
@@ -44,6 +55,14 @@ namespace SWE2_FH2020
         }
 
         public void savePicture(Picture p)
+        {
+            throw new NotImplementedException();
+        }
+        public List<Iptc> getIptcData()
+        {
+            throw new NotImplementedException();
+        }
+        public List<Exif> getExifData()
         {
             throw new NotImplementedException();
         }
