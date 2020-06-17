@@ -116,6 +116,19 @@ namespace SWE2_FH2020
             return photographerList;
         }
 
+        public IEnumerable<string> photographerList()
+        {
+            List<Photographer> stringList = getPhotographers();
+            List<string> list = new List<string>();
+            foreach (Photographer i in stringList)
+            {
+                string text = i.getVorname() + " " + i.getNachname();
+                list.Add(text);
+            }
+            IEnumerable<string> test = list;
+            return test;
+        }
+
         public Picture getPicture(int ID)
         {
             Picture picture = new Picture();

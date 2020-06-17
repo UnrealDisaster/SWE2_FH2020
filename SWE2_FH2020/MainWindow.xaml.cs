@@ -14,7 +14,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SWE2_FH2020.DB;
 
 
 namespace SWE2_FH2020
@@ -35,8 +34,6 @@ namespace SWE2_FH2020
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("Button_Click");
-            DBConnection i = DBConnection.Instance;
-            i.DBConnecting();
         }
         private void Open_Fotografen(object sender, RoutedEventArgs e)
         {
