@@ -32,7 +32,7 @@
             <DatePicker SelectedDate="{Binding Geburtsdatum, UpdateSourceTrigger=PropertyChanged}" Grid.Column="5"></DatePicker> 
             <Label Grid.Column="6">Notiz:</Label>
             <TextBox Text="{Binding Notiz, UpdateSourceTrigger=PropertyChanged}" Grid.Column="7"></TextBox>
-            <Button Grid.Column="8" Content="Add" Click="Add_User" IsEnabled="{Binding IsInputValid }"></Button>
+            <Button Grid.Column="8" Content="Add" Click="Add_User" IsEnabled="{Binding Validity}"></Button>
             
         </Grid>
         <ItemsControl Grid.Row="1" ItemsSource="{Binding Names}" BorderThickness="0">

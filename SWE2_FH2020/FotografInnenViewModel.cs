@@ -37,7 +37,7 @@ namespace SWE2_FH2020
             }
             set {
                 _vorname = value;
-                OnPropertyChanged("IsInputValid");
+                OnPropertyChanged("Validity");
             }
         }
         private string _nachname = "";
@@ -47,7 +47,7 @@ namespace SWE2_FH2020
             }
             set {
                 _nachname = value;
-                OnPropertyChanged("IsInputValid");
+                OnPropertyChanged("Validity");
             }
         }
         private DateTime _geburtsdatum = DateTime.Now;
@@ -57,7 +57,7 @@ namespace SWE2_FH2020
             }
             set {
                 _geburtsdatum = value;
-                OnPropertyChanged("IsInputValid");
+                OnPropertyChanged("Validity");
             }
         }
         private string _notiz = "";
@@ -67,18 +67,21 @@ namespace SWE2_FH2020
             }
             set {
                 _notiz = value;
-                OnPropertyChanged("IsInputValid");
+                OnPropertyChanged("Validity");
             }
         }
-        public bool IsInputValid {
+        public bool Validity{
             get {
-                string regExAllowed = "^([a-zA-Z])";
-                if (Regex.IsMatch(Vorname, regExAllowed) && Regex.IsMatch(Nachname, regExAllowed) && Regex.IsMatch(Notiz, regExAllowed) && DateTime.Now > _geburtsdatum)
-                {
-                    return true;
-                }
-                return false;
+                return this.IsInputValid();
             }
+        }
+        public bool IsInputValid() {
+            string regExAllowed = "^([a-zA-Z])";
+            if (Regex.IsMatch(Vorname, regExAllowed) && Regex.IsMatch(Nachname, regExAllowed) && Regex.IsMatch(Notiz, regExAllowed) && DateTime.Now > _geburtsdatum)
+            {
+                return true;
+            }
+            return false;
         }
 
         public void AddUser(){
