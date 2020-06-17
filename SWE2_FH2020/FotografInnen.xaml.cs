@@ -32,5 +32,10 @@ namespace SWE2_FH2020
             var f = (FotografInnenViewModel)DataContext;
             f.FotografGeloescht();
         }
+        private void Add_User(object sender, RoutedEventArgs e)
+        {
+            var f = (FotografInnenViewModel)DataContext;
+            f.AddUser();
+        }
     }
 }

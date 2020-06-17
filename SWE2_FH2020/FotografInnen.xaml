@@ -4,13 +4,37 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SWE2_FH2020"
+        xmlns:ctrls="clr-namespace:Wpf.Controls"
         mc:Ignorable="d"
         Title="FotografInnen" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
+            <RowDefinition Height="26" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="65" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="75" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="130" />
+                <ColumnDefinition Width="45" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="75" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0">Vorname:</Label>
+            <TextBox Text="{Binding Vorname, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"></TextBox>
+            <Label Grid.Column="2">Nachname:</Label>
+            <TextBox Text="{Binding Nachname, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3"></TextBox>
+            <Label Grid.Column="4">Geburtsdatum:</Label>
+            <DatePicker SelectedDate="{Binding Geburtsdatum, UpdateSourceTrigger=PropertyChanged}" Grid.Column="5"></DatePicker> 
+            <Label Grid.Column="6">Notiz:</Label>
+            <TextBox Text="{Binding Notiz, UpdateSourceTrigger=PropertyChanged}" Grid.Column="7"></TextBox>
+            <Button Grid.Column="8" Content="Add" Click="Add_User" IsEnabled="{Binding IsInputValid }"></Button>
+            
+        </Grid>
         <ItemsControl Grid.Row="1" ItemsSource="{Binding Names}" BorderThickness="0">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -19,9 +43,11 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition  Width ="200"/>
                                 <ColumnDefinition  Width ="50"/>
+                                <ColumnDefinition  Width ="500"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="{Binding}" />
                             <Button Grid.Column="1" Click="Delete_Fotograf" Content="Delete" Tag="{Binding}"></Button>
+                            <ctrls:SearchTextBox Grid.Column="2"></ctrls:SearchTextBox>
                         </Grid>
                     </StackPanel>
                 </DataTemplate>
