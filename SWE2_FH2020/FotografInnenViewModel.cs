@@ -8,7 +8,9 @@ namespace SWE2_FH2020
     {
         public IEnumerable<string> Names {
             get {
-                return DBConnection.Instance.photographerList();
+                BL test = new BL();
+                return test.photographerList();
+                //return DBConnection.Instance.photographerList();
             }
         }
     }
