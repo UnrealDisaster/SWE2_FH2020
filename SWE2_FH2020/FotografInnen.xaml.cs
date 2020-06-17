@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,6 +29,8 @@ namespace SWE2_FH2020
             var button = (Button)sender;
             test.delPhotographer(button.Tag.ToString());
             Console.WriteLine(button.Tag);
+            var f = (FotografInnenViewModel)DataContext;
+            f.FotografGeloescht();
         }
     }
 }
