@@ -7,7 +7,7 @@ using System.Windows.Controls;
 
 namespace SWE2_FH2020
 {
-    class FotografInnenViewModel:ViewModel
+    public class FotografInnenViewModel:ViewModel
     {
         private IEnumerable<Photographer> _Photographers = null;
         public IEnumerable<Photographer> Photographers {
@@ -76,8 +76,10 @@ namespace SWE2_FH2020
             }
         }
         public bool IsInputValid() {
-            string regExAllowed = "^[a-zA-Z ]+$";
-            if (Regex.IsMatch(Vorname, regExAllowed) && Regex.IsMatch(Nachname, regExAllowed) && Regex.IsMatch(Notiz, regExAllowed) && DateTime.Now > Geburtsdatum)
+            string regExAllowedFirstName = "^([a-zA-ZäÄüÜöÖß]{1,50}[ ]?[a-zA-ZäÄüÜöÖß]{1,50})$";
+            string regExAllowedLastName = "^([A-Za-zäÄüÜöÖß]{1,50})$";
+            string regExAllowed = "^([a-zA-Z .,!?äÄüÜöÖß])+$";
+            if (Regex.IsMatch(Vorname, regExAllowedFirstName) && Regex.IsMatch(Nachname, regExAllowedLastName) && Regex.IsMatch(Notiz, regExAllowed) && DateTime.Now > Geburtsdatum)
             {
                 return true;
             }
