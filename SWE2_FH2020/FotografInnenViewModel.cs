@@ -77,15 +77,23 @@ namespace SWE2_FH2020
         }
         public bool IsInputValid() {
             string regExAllowed = "^([a-zA-Z])";
-            if (Regex.IsMatch(Vorname, regExAllowed) && Regex.IsMatch(Nachname, regExAllowed) && Regex.IsMatch(Notiz, regExAllowed) && DateTime.Now > _geburtsdatum)
+            if (Regex.IsMatch(Vorname, regExAllowed) && Regex.IsMatch(Nachname, regExAllowed) && Regex.IsMatch(Notiz, regExAllowed) && DateTime.Now > Geburtsdatum)
             {
                 return true;
             }
             return false;
         }
 
-        public void AddUser(){
-            Console.WriteLine("Stuff");
+        public void AddPhotographer(){
+            var p = new Photographer();
+            p.setDate(Geburtsdatum);
+            p.setVorname(Vorname);
+            p.setNachname(Nachname);
+            p.setNotiz(Notiz);
+
+            BL test = new BL();
+            test.addPhotographer(p);
+            OnPropertyChanged("Names");
         }
 
     }
