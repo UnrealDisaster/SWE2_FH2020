@@ -2,19 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 using Npgsql;
+using System.Configuration;
 
 namespace SWE2_FH2020
 {
     public class DALFactory
     {
-        private static bool useMock = false;
-        public static void setMock()
-        {
-            useMock = true;
-        }
         public static IDAL getDAL()
         {
-            if (useMock)
+            string mode = ConfigurationManager.AppSettings.Get("testDB");
+            if (mode.Equals("1"))
             {
                 return new DALMock();
             }

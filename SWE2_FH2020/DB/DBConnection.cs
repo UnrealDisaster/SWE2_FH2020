@@ -88,14 +88,6 @@ namespace SWE2_FH2020
             reader_pic.Close();
             return pictureList;
         }
-        public List<Exif> getExifData()
-        {
-            List<Exif> ExifList = new List<Exif>();
-            NpgsqlConnection db = DBConnection.Instance.initialize();
-            NpgsqlCommand cmd_photo = new NpgsqlCommand("Select * from exif", db);
-
-            return ExifList;
-        }
         public List<Photographer> getPhotographers()
         {
             List<Photographer> photographerList = new List<Photographer>();
@@ -235,82 +227,67 @@ namespace SWE2_FH2020
         public void savePicture(Picture p)
         {
             NpgsqlConnection db = DBConnection.Instance.initialize();
-            NpgsqlCommand cmd_exif_check = new NpgsqlCommand("Select * from exif WHERE pk_exif_id = @p", db);
-            cmd_exif_check.Parameters.AddWithValue("p", p.getExif().getId());
-            try
+            NpgsqlCommand cmd_exif = new NpgsqlCommand("Update exif SET iso_speed_ratings = @p, make = @q, date_time = @r, flash = @s, exposuretime = @t WHERE fk_pk_exif_id = @u", db);
+            cmd_exif.Parameters.AddWithValue("p", p.getExif().getIsoSpeedRating());
+            cmd_exif.Parameters.AddWithValue("q", p.getExif().getMake());
+            cmd_exif.Parameters.AddWithValue("r", p.getExif().getDateTime());
+            cmd_exif.Parameters.AddWithValue("s", p.getExif().getFlash());
+            cmd_exif.Parameters.AddWithValue("t", p.getExif().getExposureTime());
+            cmd_exif.Parameters.AddWithValue("u", p.getExif().getId());
+            cmd_exif.ExecuteNonQuery();
+            cmd_exif.Dispose();
+
+            NpgsqlCommand cmd_iptc = new NpgsqlCommand("Update iptc SET date_created = @p, time_created = @q, by_line = @r, copyright = @s WHERE fk_pk_iptc_id = @t", db);
+            cmd_iptc.Parameters.AddWithValue("p", p.getIptc().getDate());
+            cmd_iptc.Parameters.AddWithValue("q", p.getIptc().getTime());
+            cmd_iptc.Parameters.AddWithValue("r", p.getIptc().getByLine());
+            cmd_iptc.Parameters.AddWithValue("s", p.getIptc().getCopyright());
+            cmd_iptc.Parameters.AddWithValue("t", p.getIptc().getId());
+            cmd_iptc.ExecuteNonQuery();
+            cmd_iptc.Dispose();
+
+            NpgsqlCommand cmd_pic = new NpgsqlCommand("Update picture SET fk_pk_exif_id = @p, fk_pk_iptc_id = @q, fk_pk_fotograf_id = @r, directory = @s WHERE picture_id = @t", db);
+            cmd_pic.Parameters.AddWithValue("p", p.getExif().getId());
+            cmd_pic.Parameters.AddWithValue("q", p.getIptc().getId());
+            cmd_pic.Parameters.AddWithValue("r", p.getPhotographer().getId());
+            cmd_pic.Parameters.AddWithValue("s", p.getDirectory());
+            cmd_pic.Parameters.AddWithValue("t", p.getId());
+            cmd_pic.ExecuteNonQuery();
+            cmd_pic.Dispose();
+        }
+        public void setupPictures(List<Picture> pic)
+        {
+            NpgsqlConnection db = DBConnection.Instance.initialize();
+            foreach (Picture p in pic)
             {
-                cmd_exif_check.Prepare();
-            }
-            catch
-            {
-                Console.WriteLine("Invalid query");
-            }
-            NpgsqlDataReader reader_exif_check = cmd_exif_check.ExecuteReader();
-            cmd_exif_check.Dispose();
-            if(!reader_exif_check.Read())
-            {
-                reader_exif_check.Close();
                 NpgsqlCommand cmd_exif = new NpgsqlCommand("INSERT INTO exif(iso_speed_ratings, make, date_time, flash, exposuretime) values (@p, @q, @r, @s, @t)", db);
                 cmd_exif.Parameters.AddWithValue("p", p.getExif().getIsoSpeedRating());
                 cmd_exif.Parameters.AddWithValue("q", p.getExif().getMake());
                 cmd_exif.Parameters.AddWithValue("r", p.getExif().getDateTime());
                 cmd_exif.Parameters.AddWithValue("s", p.getExif().getFlash());
                 cmd_exif.Parameters.AddWithValue("t", p.getExif().getExposureTime());
+                cmd_exif.Parameters.AddWithValue("u", p.getExif().getId());
                 cmd_exif.ExecuteNonQuery();
                 cmd_exif.Dispose();
-            }
 
-            NpgsqlCommand cmd_iptc_check = new NpgsqlCommand("Select * from iptc WHERE pk_iptc_id = @p", db);
-            cmd_iptc_check.Parameters.AddWithValue("p", p.getIptc().getId());
-            try
-            {
-                cmd_iptc_check.Prepare();
-            }
-            catch
-            {
-                Console.WriteLine("Invalid query");
-            }
-            NpgsqlDataReader reader_iptc_check = cmd_iptc_check.ExecuteReader();
-            cmd_iptc_check.Dispose();
-            if (!reader_iptc_check.Read())
-            {
-                reader_iptc_check.Close();
                 NpgsqlCommand cmd_iptc = new NpgsqlCommand("INSERT INTO iptc(date_created, time_created, by_line, copyright) values (@p, @q, @r, @s)", db);
                 cmd_iptc.Parameters.AddWithValue("p", p.getIptc().getDate());
                 cmd_iptc.Parameters.AddWithValue("q", p.getIptc().getTime());
                 cmd_iptc.Parameters.AddWithValue("r", p.getIptc().getByLine());
                 cmd_iptc.Parameters.AddWithValue("s", p.getIptc().getCopyright());
+                cmd_iptc.Parameters.AddWithValue("t", p.getIptc().getId());
                 cmd_iptc.ExecuteNonQuery();
                 cmd_iptc.Dispose();
-            }
 
-            NpgsqlCommand cmd_pic_check = new NpgsqlCommand("Select * from picture WHERE picture_id = @p", db);
-            cmd_pic_check.Parameters.AddWithValue("p", p.getId());
-            try
-            {
-                cmd_pic_check.Prepare();
-            }
-            catch
-            {
-                Console.WriteLine("Invalid query");
-            }
-            NpgsqlDataReader reader_pic_check = cmd_pic_check.ExecuteReader();
-            cmd_pic_check.Dispose();
-            if (!reader_pic_check.Read())
-            {
-                reader_pic_check.Close();
                 NpgsqlCommand cmd_pic = new NpgsqlCommand("INSERT INTO picture (fk_pk_exif_id, fk_pk_iptc_id, fk_pk_fotograf_id, directory) values (@p, @q, @r, @s)", db);
                 cmd_pic.Parameters.AddWithValue("p", p.getExif().getId());
                 cmd_pic.Parameters.AddWithValue("q", p.getIptc().getId());
                 cmd_pic.Parameters.AddWithValue("r", p.getPhotographer().getId());
                 cmd_pic.Parameters.AddWithValue("s", p.getDirectory());
+                cmd_pic.Parameters.AddWithValue("t", p.getId());
                 cmd_pic.ExecuteNonQuery();
                 cmd_pic.Dispose();
             }
-        }
-        public void setupPictures(List<Picture> p)
-        {
-
         }
         public void editPhotographer(Photographer photogr)
         {

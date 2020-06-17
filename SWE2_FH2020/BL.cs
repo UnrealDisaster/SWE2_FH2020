@@ -31,5 +31,25 @@ namespace SWE2_FH2020
         {
             return _dal.getPictures();
         }
+        public List<Photographer> getPhotographers()
+        {
+            return _dal.getPhotographers();
+        }
+        public void setupPicturesData(List<Picture> pic)
+        {
+            _dal.setupPictures(pic);
+        }
+        public Picture getPictureInfo(int id)
+        {
+            return _dal.getPicture(id);
+        }
+        public void savePictureData(Picture p)
+        {
+            _dal.savePicture(p);
+        }
+        public void editPhotographData(Photographer ph)
+        {
+            _dal.editPhotographer(ph);
+        }
     }
 }

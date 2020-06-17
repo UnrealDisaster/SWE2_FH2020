@@ -7,6 +7,14 @@ namespace SWE2_FH2020
 {
     public class DALMock : IDAL
     {
+        private List<string> delPhotographer = new List<string>() { "Marius Hochwald", "Daniel Krottendorfer", "Barack Obama" };
+        private List<Photographer> addPhoto = new List<Photographer>();
+        private Photographer editPhoto = new Photographer();
+        private Picture getPictureNow = new Picture();
+        private Picture editPicture = new Picture();
+        private List<Picture> setupPictureTest = new List<Picture>();
+
+
         public List<Photographer> getPhotographers()
         {
             List<Photographer> test = new List<Photographer>();
@@ -14,7 +22,7 @@ namespace SWE2_FH2020
             for (int i = 0; i < 3;i++)
             {
                 Photographer temp = new Photographer();
-                temp.setDate(new DateTime(2012,i,12,0,0,0));
+                temp.setDate(new DateTime(2012,2,12,0,0,0));
                 temp.setVorname("Marius");
                 temp.setNachname("Hochwald");
                 temp.setNotiz("Das ist eine Notiz");
@@ -25,49 +33,27 @@ namespace SWE2_FH2020
 
         public void deletePhotographer(string name)
         {
-            List<string> names = new List<string>() { "Marius Hochwald", "Daniel Krottendorfer", "Barack Obama" };
-            foreach(string i in names)
+            List<string> test = getList();
+            int temp = 0;
+            foreach (string ar in test)
             {
-                if(i == name)
+                if(ar == name)
                 {
-                    names.Remove(i);
+                    temp = test.IndexOf(ar);
                 }
             }
+            test.RemoveAt(temp);
+            setList(test);
         }
-        public void addPhotographer(Photographer newPhotographer)
+        public void addPhotographer(Photographer temp)
         {
-            List<Photographer> test = new List<Photographer>();
-            Photographer temp = new Photographer();
-            temp.setDate(new DateTime(2012, 1, 12, 0, 0, 0));
-            temp.setVorname("Marius");
-            temp.setNachname("Hochwald");
-            temp.setNotiz("Das ist eine Notiz");
-            test.Add(temp);
-            test.Add(newPhotographer);
+            addPhoto.Add(temp);
         }
         public Picture getPicture(int ID)
         {
-            Picture test = new Picture();
-            test.setDirectory("test.png");
-            test.getExif().setFlash(true);
-            test.getExif().setDateTime(new DateTime(2012, 1, 12, 0, 0, 0));
-            test.getExif().setExposureTime("1/10 sec");
-            test.getExif().setId(1);
-            test.getExif().setIsoSpeedRating(200);
-            test.getExif().setMake("Nikon");
-            test.getIptc().setId(1);
-            test.getIptc().setByLine("Marius Hochwald");
-            test.getIptc().setCopyright("Hochwald Copyright GmbH");
-            test.getIptc().setDate(new DateTime(2012, 1, 12, 0, 0, 0));
-            test.getIptc().setTime(new TimeSpan(0, 2, 3, 4, 5));
-            test.getPhotographer().setDate(new DateTime(1999, 4, 8, 0, 0, 0));
-            test.getPhotographer().setId(1);
-            test.getPhotographer().setNachname("Hochwald");
-            test.getPhotographer().setVorname("Marius");
-            test.getPhotographer().setNotiz("Das ist eine Notiz");
-            test.setId(ID);
-            test.setDirectory("test.png");
-            return test;
+            getPictureNow.setId(ID);
+            getPictureNow.setDirectory("test.png");
+            return getPictureNow;
         }
 
         public List<Picture> getPictures()
@@ -76,23 +62,6 @@ namespace SWE2_FH2020
             for (int i = 0; i < 3; i++)
             {
                 Picture test = new Picture();
-                test.setDirectory("test.png");
-                test.getExif().setFlash(true);
-                test.getExif().setDateTime(new DateTime(2012, 1, 12, 0, 0, 0));
-                test.getExif().setExposureTime("1/10 sec");
-                test.getExif().setId(i);
-                test.getExif().setIsoSpeedRating(200);
-                test.getExif().setMake("Nikon");
-                test.getIptc().setId(i);
-                test.getIptc().setByLine("Marius Hochwald");
-                test.getIptc().setCopyright("Hochwald Copyright GmbH");
-                test.getIptc().setDate(new DateTime(2012, 1, 12, 0, 0, 0));
-                test.getIptc().setTime(new TimeSpan(0, 2, 3, 4, 5));
-                test.getPhotographer().setDate(new DateTime(1999, 4, 8, 0, 0, 0));
-                test.getPhotographer().setId(i);
-                test.getPhotographer().setNachname("Hochwald");
-                test.getPhotographer().setVorname("Marius");
-                test.getPhotographer().setNotiz("Das ist eine Notiz");
                 test.setId(i);
                 test.setDirectory("test.png");
                 temp.Add(test);
@@ -114,15 +83,52 @@ namespace SWE2_FH2020
 
         public void savePicture(Picture p)
         {
-            throw new NotImplementedException();
+            editPicture.setId(2);
+            editPicture.setDirectory("new.png");
+
+            editPicture.setId(p.getId());
+            editPicture.setDirectory(p.getDirectory());
         }
-        public void setupPictures(List<Picture> p)
+        public void setupPictures(List<Picture> pic)
         {
-            throw new NotImplementedException();
+            setupPictureTest = pic;
         }
         public void editPhotographer(Photographer photogr)
         {
-            throw new NotImplementedException();
+            editPhoto.setVorname("Marius");
+            editPhoto.setNachname("Hochwald");
+
+            editPhoto.setVorname(photogr.getVorname());
+            editPhoto.setVorname(photogr.getNachname());
+        }
+        public string getString()
+        {
+            return delPhotographer[0];
+        }
+        public List<string> getList()
+        {
+            return delPhotographer;
+        }
+        public void setList(List<string> newList)
+        {
+            delPhotographer = newList;
+        }
+        public string getAddedPhotograph()
+        {
+            return addPhoto[0].getNachname();
+        }
+        public string geteditPhotographer()
+        {
+            return editPhoto.getVorname();
+        }
+
+        public string geteditPicture()
+        {
+            return editPicture.getDirectory();
+        }
+        public string getSetupPicDirectoryString()
+        {
+            return setupPictureTest[2].getDirectory();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace SWE2_FH2020
         void addPhotographer(Photographer newPhotographer);
         Picture getPicture(int ID);
         void savePicture(Picture p);
-        void setupPictures(List<Picture> p);
+        void setupPictures(List<Picture> pic);
         void editPhotographer(Photographer photogr);
 
     }
