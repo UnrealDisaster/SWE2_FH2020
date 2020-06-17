@@ -17,6 +17,10 @@ namespace SWE2_FH2020
             throw new NotImplementedException();
         }
 
+        public void deletePhotographer(string name)
+        {
+            throw new NotImplementedException();
+        }
         public Picture getPicture(int ID)
         {
             throw new NotImplementedException();
@@ -39,7 +43,7 @@ namespace SWE2_FH2020
             return test;
         }
 
-        public void save(Picture p)
+        public void savePicture(Picture p)
         {
             throw new NotImplementedException();
         }

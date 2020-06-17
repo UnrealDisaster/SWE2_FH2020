@@ -17,5 +17,10 @@ namespace SWE2_FH2020
         {
             return _dal.photographerList();
         }
+
+        public void delPhotographer(string name)
+        {
+            _dal.deletePhotographer(name);
+        }
     }
 }

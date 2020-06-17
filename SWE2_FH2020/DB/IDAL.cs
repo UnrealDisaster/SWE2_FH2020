@@ -11,8 +11,9 @@ namespace SWE2_FH2020
         List<Picture> getPictures();
         List<Photographer> getPhotographers();
         IEnumerable<string> photographerList();
+        void deletePhotographer(string name);
         Picture getPicture(int ID);
-        void save(Picture p);
+        void savePicture(Picture p);
         void delete(Picture p);
 
     }

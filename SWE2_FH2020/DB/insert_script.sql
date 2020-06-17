@@ -25,21 +25,23 @@ CREATE TABLE iptc (
 );
 
 CREATE TABLE picture (
-    picture_id serial PRIMARY KEY,
+	picture_id serial PRIMARY KEY,
 	fk_pk_exif_id int NOT NULL,
 	fk_pk_iptc_id int NOT NULL,
-	fk_pk_fotograf_id int NOT NULL,
+	fk_pk_fotograf_id int,
 	directory VARCHAR NOT NULL,
 	CONSTRAINT "ck_pk_exif_id" FOREIGN KEY ("fk_pk_exif_id") REFERENCES "exif" ("pk_exif_id"),
 	CONSTRAINT "ck_pk_iptc_id" FOREIGN KEY ("fk_pk_iptc_id") REFERENCES "iptc" ("pk_iptc_id"),
-	CONSTRAINT "ck_pk_fotograf_id" FOREIGN KEY ("fk_pk_fotograf_id") REFERENCES "fotograf" ("pk_fotograf_id")
+	CONSTRAINT "ck_pk_fotograf_id" FOREIGN KEY ("fk_pk_fotograf_id") REFERENCES "fotograf" ("pk_fotograf_id") ON DELETE SET NULL
 );
 
+/*
 INSERT INTO fotograf (vorname,nachname,geburtsdatum)
 VALUES
 ('pepe','thefrog','3.2.2012'),
 ('Daniel','Krottendorfer','2.23.1996'),
 ('Marius','Hochwald','6.9.420');
+*/
 
 select * from picture left join fotograf on picture.fk_pk_fotograf_id=fotograf.pk_fotograf_id left join exif on picture.fk_pk_exif_id=exif.pk_exif_id left join iptc on picture.fk_pk_iptc_id=iptc.pk_iptc_id ;
 

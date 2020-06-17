@@ -24,7 +24,9 @@ namespace SWE2_FH2020
         }
         private void Delete_Fotograf(object sender, RoutedEventArgs e)
         {
+            BL test = new BL();
             var button = (Button)sender;
+            test.delPhotographer(button.Tag.ToString());
             Console.WriteLine(button.Tag);
         }
     }

@@ -117,6 +117,30 @@ namespace SWE2_FH2020
             return photographerList;
         }
 
+        public void deletePhotographer(string name)
+        {
+            string[] names = name.Split(' ');
+            if(names.Length > 2)
+            {
+                names[0] = names[0] + " " + names[1];
+                names[1] = names[2];
+            }
+            NpgsqlConnection db = DBConnection.Instance.initialize();
+            NpgsqlCommand cmd_delphoto = new NpgsqlCommand("DELETE FROM fotograf WHERE vorname = @p AND nachname = @q", db);
+            cmd_delphoto.Parameters.AddWithValue("p", names[0]);
+            cmd_delphoto.Parameters.AddWithValue("q", names[1]);
+            try
+            {
+                cmd_delphoto.Prepare();
+            }
+            catch
+            {
+                Console.WriteLine("Invalid query");
+            }
+            cmd_delphoto.ExecuteNonQuery();
+            cmd_delphoto.Dispose();
+        }
+
         public IEnumerable<string> photographerList()
         {
             List<Photographer> stringList = getPhotographers();
@@ -179,7 +203,7 @@ namespace SWE2_FH2020
             reader_pic.Close();
             return picture;
         }
-        public void save(Picture p)
+        public void savePicture(Picture p)
         {
             NpgsqlConnection db = DBConnection.Instance.initialize();
             NpgsqlCommand cmd_exif_check = new NpgsqlCommand("Select * from exif WHERE pk_exif_id = @p", db);
