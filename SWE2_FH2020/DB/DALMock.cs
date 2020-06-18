@@ -142,5 +142,9 @@ namespace SWE2_FH2020
             photographerById.setNotiz("BIn eine Notiz");
             return photographerById;
         }
+        void setPhotographerToPicture(int id, string name)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

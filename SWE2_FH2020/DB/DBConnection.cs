@@ -374,7 +374,7 @@ namespace SWE2_FH2020
         {
             Photographer temp_photo = new Photographer();
             NpgsqlConnection db = DBConnection.Instance.initialize();
-            NpgsqlCommand cmd_getphoto = new NpgsqlCommand("Select * from fotograf WHERE ok_fotograf_id = @p;", db);
+            NpgsqlCommand cmd_getphoto = new NpgsqlCommand("Select * from fotograf WHERE pk_fotograf_id = @p;", db);
             cmd_getphoto.Parameters.AddWithValue("p", Id);
             try
             {
@@ -397,6 +397,39 @@ namespace SWE2_FH2020
             }
             reader_getphoto.Close();
             return temp_photo;
+        }
+        void setPhotographerToPicture(int id, string name)
+        {
+            NpgsqlConnection db = DBConnection.Instance.initialize();
+            string[] names = name.Split(' ');
+            int fotoId = 0;
+            if (names.Length > 2)
+            {
+                names[0] = names[0] + " " + names[1];
+                names[1] = names[2];
+            }
+            NpgsqlCommand cmd_photo = new NpgsqlCommand("Select pk_fotograf_id from fotograf where vorname = @p AND nachname = @q", db);
+            cmd_photo.Parameters.AddWithValue("p", names[0]);
+            cmd_photo.Parameters.AddWithValue("p", names[1]);
+            try
+            {
+                cmd_photo.Prepare();
+            }
+            catch
+            {
+                Console.WriteLine("Invalid query");
+            }
+            NpgsqlDataReader reader_photo = cmd_photo.ExecuteReader();
+            cmd_photo.Dispose();
+            while (reader_photo.Read())
+            {
+                fotoId = reader_photo.GetInt32(0);
+            }
+            reader_photo.Close();
+            NpgsqlCommand cmd_picture = new NpgsqlCommand("INSERT INTO picture(fk_pk_fitigraf_id) values (@p)", db);
+            cmd_photo.Parameters.AddWithValue("p", fotoId);
+            cmd_photo.ExecuteNonQuery();
+            cmd_photo.Dispose();
         }
     }
 }

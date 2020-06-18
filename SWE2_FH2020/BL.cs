@@ -88,5 +88,9 @@ namespace SWE2_FH2020
         {
             _dal.dropRecreateTables();
         }
+        public void setPhotographerToPic(int id, string name)
+        {
+            _dal.setPhotographerToPicture(id, name);
+        }
     }
 }
