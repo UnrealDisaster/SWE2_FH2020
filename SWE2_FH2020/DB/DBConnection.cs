@@ -335,6 +335,38 @@ namespace SWE2_FH2020
             NpgsqlCommand cmd_picture_create = new NpgsqlCommand("CREATE TABLE picture (picture_id serial PRIMARY KEY, fk_pk_exif_id int NOT NULL, fk_pk_iptc_id int NOT NULL, fk_pk_fotograf_id int, directory VARCHAR NOT NULL, CONSTRAINT 'ck_pk_exif_id' FOREIGN KEY('fk_pk_exif_id') REFERENCES 'exif'('pk_exif_id'), CONSTRAINT 'ck_pk_iptc_id' FOREIGN KEY('fk_pk_iptc_id') REFERENCES 'iptc'('pk_iptc_id'), CONSTRAINT 'ck_pk_fotograf_id' FOREIGN KEY('fk_pk_fotograf_id') REFERENCES 'fotograf'('pk_fotograf_id') ON DELETE SET NULL); ", db);
             cmd_picture_drop.ExecuteNonQuery();
             cmd_picture_drop.Dispose();
+
+            NpgsqlCommand cmd_addphoto = new NpgsqlCommand("INSERT INTO fotograf(vorname, nachname, geburtsdatum, notiz) values (@p, @q, @r, @s)", db);
+            cmd_addphoto.Parameters.AddWithValue("p", "Marius");
+            cmd_addphoto.Parameters.AddWithValue("q", "Hochwald");
+            cmd_addphoto.Parameters.AddWithValue("r", new DateTime(2012,2,2));
+            cmd_addphoto.Parameters.AddWithValue("s", "Ich bin eine Notiz");
+            try
+            {
+                cmd_addphoto.Prepare();
+            }
+            catch
+            {
+                Console.WriteLine("Invalid query");
+            }
+            cmd_addphoto.ExecuteNonQuery();
+            cmd_addphoto.Dispose();
+
+            NpgsqlCommand cmd_addphotoTwo = new NpgsqlCommand("INSERT INTO fotograf(vorname, nachname, geburtsdatum, notiz) values (@p, @q, @r, @s)", db);
+            cmd_addphotoTwo.Parameters.AddWithValue("p", "Daniel");
+            cmd_addphotoTwo.Parameters.AddWithValue("q", "Krottendorfer");
+            cmd_addphotoTwo.Parameters.AddWithValue("r", new DateTime(2013, 4, 9));
+            cmd_addphotoTwo.Parameters.AddWithValue("s", "Ich bin eine neue Notiz");
+            try
+            {
+                cmd_addphotoTwo.Prepare();
+            }
+            catch
+            {
+                Console.WriteLine("Invalid query");
+            }
+            cmd_addphotoTwo.ExecuteNonQuery();
+            cmd_addphotoTwo.Dispose();
         }
     }
 }
