@@ -26,6 +26,9 @@
                 <TextBlock Text="Option" />
             </Button>
             <ctrls:CommandButton CommandViewModel="{Binding LayoutsCommand}"/>
+            <Button Background="Green" Click="Button_Click" DockPanel.Dock="Left">
+                <TextBlock Text="Print Pdf" />
+            </Button>
 
             <Button Background="White" DockPanel.Dock="Right">
                 <TextBlock Text="Help" />
@@ -61,29 +64,55 @@
             <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
             <TabControl  Grid.Row="0" Grid.Column="3">
                 <TabItem Header="IPTC">
-                    <StackPanel Orientation="Vertical">
-                        <Grid Margin="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Name: "></TextBlock>
-                            <TextBox Grid.Column="1" ></TextBox>
-                        </Grid>
-                        <Grid Margin="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Titel: "></TextBlock>
-                            <TextBox Grid.Column="1" ></TextBox>
-                        </Grid>
-                        <Button Click="Button_Click" Content="Save"></Button>
-
-                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Column="0">Date Created</Label>
+                        <DatePicker SelectedDate="{Binding selectedIptcDate}" Grid.Column="1"></DatePicker>
+                        <Label Grid.Row="1" Grid.Column="0">Time Created</Label>
+                        <TextBox Text="{Binding selectedIptcTime}" Grid.Row="1" Grid.Column="1"></TextBox>
+                        <Label Grid.Row="2" Grid.Column="0">By line</Label>
+                        <TextBox Text="{Binding selectedIptcByLine}" Grid.Row="2" Grid.Column="1"></TextBox>
+                        <Label Grid.Row="3" Grid.Column="0">Copyright</Label>
+                        <TextBox  Text="{Binding selectedIptcCopyright}" Grid.Row="3" Grid.Column="1"></TextBox>
+                        <Button Grid.Column="1" Click="Save_IPTC" Grid.Row="4">Save</Button>
+                    </Grid>
                 </TabItem>
                 <TabItem Header="EXIF">
-                    <TextBlock Text="NO"></TextBlock>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Column="0">ISO Speedrating</Label>
+                        <TextBox Text="{Binding selectedPictureData.IptcData.}" Grid.Column="1"></TextBox>
+                        <Label Grid.Row="1" Grid.Column="0">Make</Label>
+                        <TextBox Grid.Row="1" Grid.Column="1"></TextBox>
+                        <Label Grid.Row="2" Grid.Column="0">Date</Label>
+                        <TextBox Grid.Row="2" Grid.Column="1"></TextBox>
+                        <Label Grid.Row="3" Grid.Column="0">Flash</Label>
+                        <TextBox Grid.Row="3" Grid.Column="1"></TextBox>
+                        <Label Grid.Row="4" Grid.Column="0">Exposure</Label>
+                        <TextBox Grid.Row="4" Grid.Column="1"></TextBox>
+                        <Button Grid.Column="1" Grid.Row="5">Save</Button>
+                    </Grid>
                 </TabItem>
             </TabControl>
             

@@ -13,6 +13,34 @@ namespace SWE2_FH2020
         private bool flash;
         private string exposureTime;
 
+        public static Exif randomExif()
+        {
+            var rand = new Random();
+            var e = new Exif();
+
+            e.setIsoSpeedRating(rand.Next() % 800);
+
+            if (rand.Next() % 2 > 0)
+                e.setMake("Canon");
+            else
+                e.setMake("Nikon");
+
+            if (rand.Next() % 2 > 0)
+                e.setFlash(true);
+            else
+                e.setFlash(false);
+
+            e.setExposureTime("1/"+rand.Next() % 100+" sec");
+
+            int y = 1980;
+            int m = (rand.Next() % 12)+1;
+            int d = (rand.Next() % 27)+1;
+
+            DateTime date = new DateTime(y,m,d);
+            e.setDateTime(date);
+
+            return e;
+        }
         public int getId()
         {
             return id;

@@ -227,7 +227,7 @@ namespace SWE2_FH2020
         public void savePicture(Picture p)
         {
             NpgsqlConnection db = DBConnection.Instance.initialize();
-            NpgsqlCommand cmd_exif = new NpgsqlCommand("Update exif SET iso_speed_ratings = @p, make = @q, date_time = @r, flash = @s, exposuretime = @t WHERE fk_pk_exif_id = @u", db);
+            NpgsqlCommand cmd_exif = new NpgsqlCommand("Update exif SET iso_speed_ratings = @p, make = @q, date_time = @r, flash = @s, exposuretime = @t WHERE pk_exif_id = @u", db);
             cmd_exif.Parameters.AddWithValue("p", p.getExif().getIsoSpeedRating());
             cmd_exif.Parameters.AddWithValue("q", p.getExif().getMake());
             cmd_exif.Parameters.AddWithValue("r", p.getExif().getDateTime());
@@ -237,7 +237,7 @@ namespace SWE2_FH2020
             cmd_exif.ExecuteNonQuery();
             cmd_exif.Dispose();
 
-            NpgsqlCommand cmd_iptc = new NpgsqlCommand("Update iptc SET date_created = @p, time_created = @q, by_line = @r, copyright = @s WHERE fk_pk_iptc_id = @t", db);
+            NpgsqlCommand cmd_iptc = new NpgsqlCommand("Update iptc SET date_created = @p, time_created = @q, by_line = @r, copyright = @s WHERE pk_iptc_id = @t", db);
             cmd_iptc.Parameters.AddWithValue("p", p.getIptc().getDate());
             cmd_iptc.Parameters.AddWithValue("q", p.getIptc().getTime());
             cmd_iptc.Parameters.AddWithValue("r", p.getIptc().getByLine());

@@ -26,6 +26,8 @@ namespace SWE2_FH2020
 
         public MainWindow()
         {
+            var bl = new BL();
+            bl.newDB();
             InitializeComponent();
             var iv = new MainWindowViewModel();
             this.DataContext = iv;
@@ -33,7 +35,15 @@ namespace SWE2_FH2020
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("Button_Click");
+            var mainvm = (MainWindowViewModel)this.DataContext;
+            mainvm.printPdf();
+
+        }
+        private void Save_IPTC(object sender, RoutedEventArgs e)
+        {
+            var mainvm = (MainWindowViewModel)this.DataContext;
+            mainvm.saveSelectedIPTC();
+
         }
         private void Open_Fotografen(object sender, RoutedEventArgs e)
         {

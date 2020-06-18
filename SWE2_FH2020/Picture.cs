@@ -20,6 +20,18 @@ namespace SWE2_FH2020
             this.iptc = newIptc;
             this.directory = newDirectory;
         }
+
+        public static Picture randomPicture(string newDirectory,int exifid, int iptcid)
+        {
+            var p = new Picture();
+            p.exif = Exif.randomExif();
+            p.getExif().setId(exifid);
+            p.iptc = Iptc.randomIptc();
+            p.getIptc().setId(iptcid);
+            p.directory = newDirectory;
+
+            return p;
+        }
         public Picture()
         {
 
@@ -32,6 +44,16 @@ namespace SWE2_FH2020
         {
             id = newId;
         }
+
+        public Photographer PhotographerData {
+            get {
+                return photographer;
+            }
+            set {
+                photographer = value;
+            }
+        }
+
         public Photographer getPhotographer()
         {
             return photographer;
@@ -39,6 +61,15 @@ namespace SWE2_FH2020
         public void setPhotographer(Photographer newPhotographer)
         {
             photographer = newPhotographer;
+        }
+
+        public Exif ExifData {
+            get {
+                return exif;
+            }
+            set {
+                exif = value;
+            }
         }
         public Exif getExif()
         {
@@ -48,6 +79,16 @@ namespace SWE2_FH2020
         {
             exif = newExif;
         }
+
+        public Iptc IptcData {
+            get {
+                return iptc;
+            }
+            set {
+                iptc = value;
+            }
+        }
+
         public Iptc getIptc()
         {
             return iptc;
@@ -55,6 +96,15 @@ namespace SWE2_FH2020
         public void setIptc(Iptc newIptc)
         {
             iptc = newIptc;
+        }
+
+        public string Directory {
+            get {
+                return directory;
+            }
+            set {
+                directory = value;
+            }
         }
         public string getDirectory()
         {
