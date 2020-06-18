@@ -76,8 +76,8 @@ namespace SWE2_FH2020
             html += "<p>Copyright: " + p.getIptc().getCopyright() + "</p>";
 
             html += "<img src='" + pathPicture + pic + "'>";
-
-            html += "<p>Fotograf: " + p.getPhotographer().getVorname() + " " + p.getPhotographer().getNachname() + "</p>";
+            Photographer ph = _dal.getPhotographerById(p.getPhotographerId());
+            html += "<p>Fotograf: " + ph.getVorname() + " " + ph.getNachname() + "</p>";
 
             // turn html to pdf
             var pdf = htmlToPdf.RenderHtmlAsPdf(html);

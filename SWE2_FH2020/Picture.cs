@@ -7,15 +7,15 @@ namespace SWE2_FH2020
     public class Picture
     {
         private int id;
-        private Photographer photographer;
+        private int photographerId;
         private Exif exif;
         private Iptc iptc;
         private string directory;
 
-        public Picture(int newId, Photographer newPhotographer, Exif newExIf, Iptc newIptc, string newDirectory)
+        public Picture(int newId, int newPhotographerId, Exif newExIf, Iptc newIptc, string newDirectory)
         {
             this.id = newId;
-            this.photographer = newPhotographer;
+            this.photographerId = newPhotographerId;
             this.exif = newExIf;
             this.iptc = newIptc;
             this.directory = newDirectory;
@@ -45,22 +45,13 @@ namespace SWE2_FH2020
             id = newId;
         }
 
-        public Photographer PhotographerData {
-            get {
-                return photographer;
-            }
-            set {
-                photographer = value;
-            }
-        }
-
-        public Photographer getPhotographer()
+        public int getPhotographerId()
         {
-            return photographer;
+            return photographerId;
         }
-        public void setPhotographer(Photographer newPhotographer)
+        public void setPhotographerId(int newphotographerId)
         {
-            photographer = newPhotographer;
+            photographerId = newphotographerId;
         }
 
         public Exif ExifData {

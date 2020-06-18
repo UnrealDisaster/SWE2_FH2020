@@ -58,6 +58,7 @@ namespace SWE2_FH2020
                 Picture temp_pic = new Picture();
                 temp_pic.setId(reader_pic.GetInt32(0));
                 temp_pic.setDirectory(reader_pic.GetString(4));
+                temp_pic.setPhotographerId(reader_pic.GetInt32(3));
 
                 Exif temp_exif = new Exif();
                 temp_exif.setId(reader_pic.GetInt32(1));
@@ -76,13 +77,6 @@ namespace SWE2_FH2020
                 temp_iptc.setCopyright(reader_pic.GetString(20));
                 temp_pic.setIptc(temp_iptc);
 
-                Photographer temp_photo = new Photographer();
-                temp_photo.setId(reader_pic.GetInt32(3));
-                temp_photo.setVorname(reader_pic.GetString(6));
-                temp_photo.setNachname(reader_pic.GetString(7));
-                temp_photo.setDate(reader_pic.GetDateTime(8));
-                temp_photo.setNotiz(reader_pic.GetString(9));
-                temp_pic.setPhotographer(temp_photo);
                 pictureList.Add(temp_pic);
             }
             reader_pic.Close();
@@ -195,6 +189,7 @@ namespace SWE2_FH2020
             {
                 picture.setId(reader_pic.GetInt32(0));
                 picture.setDirectory(reader_pic.GetString(4));
+                picture.setPhotographerId(reader_pic.GetInt32(3));
 
                 Exif temp_exif = new Exif();
                 temp_exif.setId(reader_pic.GetInt32(1));
@@ -212,14 +207,6 @@ namespace SWE2_FH2020
                 temp_iptc.setByLine(reader_pic.GetString(19));
                 temp_iptc.setCopyright(reader_pic.GetString(20));
                 picture.setIptc(temp_iptc);
-
-                Photographer temp_photo = new Photographer();
-                temp_photo.setId(reader_pic.GetInt32(3));
-                temp_photo.setVorname(reader_pic.GetString(6));
-                temp_photo.setNachname(reader_pic.GetString(7));
-                temp_photo.setDate(reader_pic.GetDateTime(8));
-                temp_photo.setNotiz(reader_pic.GetString(9));
-                picture.setPhotographer(temp_photo);
             }
             reader_pic.Close();
             return picture;
@@ -249,7 +236,7 @@ namespace SWE2_FH2020
             NpgsqlCommand cmd_pic = new NpgsqlCommand("Update picture SET fk_pk_exif_id = @p, fk_pk_iptc_id = @q, fk_pk_fotograf_id = @r, directory = @s WHERE picture_id = @t", db);
             cmd_pic.Parameters.AddWithValue("p", p.getExif().getId());
             cmd_pic.Parameters.AddWithValue("q", p.getIptc().getId());
-            cmd_pic.Parameters.AddWithValue("r", p.getPhotographer().getId());
+            cmd_pic.Parameters.AddWithValue("r", p.getPhotographerId());
             cmd_pic.Parameters.AddWithValue("s", p.getDirectory());
             cmd_pic.Parameters.AddWithValue("t", p.getId());
             cmd_pic.ExecuteNonQuery();
@@ -381,6 +368,35 @@ namespace SWE2_FH2020
             }
             cmd_addphotoThree.ExecuteNonQuery();
             cmd_addphotoThree.Dispose();
+        }
+
+        public Photographer getPhotographerById(int Id)
+        {
+            Photographer temp_photo = new Photographer();
+            NpgsqlConnection db = DBConnection.Instance.initialize();
+            NpgsqlCommand cmd_getphoto = new NpgsqlCommand("Select * from fotograf WHERE ok_fotograf_id = @p;", db);
+            cmd_getphoto.Parameters.AddWithValue("p", Id);
+            try
+            {
+                cmd_getphoto.Prepare();
+            }
+            catch
+            {
+                Console.WriteLine("Invalid query");
+            }
+            NpgsqlDataReader reader_getphoto = cmd_getphoto.ExecuteReader();
+            cmd_getphoto.Dispose();
+            while (reader_getphoto.Read())
+            {
+                temp_photo.setId(reader_getphoto.GetInt32(0));
+                temp_photo.setVorname(reader_getphoto.GetString(1));
+                temp_photo.setNachname(reader_getphoto.GetString(2));
+                temp_photo.setDate(reader_getphoto.GetDateTime(3));
+                if (!reader_getphoto.IsDBNull(4))
+                    temp_photo.setNotiz(reader_getphoto.GetString(4));
+            }
+            reader_getphoto.Close();
+            return temp_photo;
         }
     }
 }

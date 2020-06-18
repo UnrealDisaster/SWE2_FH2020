@@ -13,6 +13,7 @@ namespace SWE2_FH2020
         private Picture getPictureNow = new Picture();
         private Picture editPicture = new Picture();
         private List<Picture> setupPictureTest = new List<Picture>();
+        private Photographer photographerById = new Photographer();
 
 
         public List<Photographer> getPhotographers()
@@ -133,6 +134,13 @@ namespace SWE2_FH2020
         public void dropRecreateTables()
         {
             throw new NotImplementedException();
+        }
+        public Photographer getPhotographerById(int id)
+        {
+            photographerById.setVorname("Marius");
+            photographerById.setNachname("Hochwald");
+            photographerById.setNotiz("BIn eine Notiz");
+            return photographerById;
         }
     }
 }
