@@ -7,6 +7,7 @@ namespace SWE2_FH2020
 {
     public interface IDAL
     {
+        // Interface vom DAL
         public NpgsqlConnection initialize();
         List<Picture> getPictures();
         List<Photographer> getPhotographers();

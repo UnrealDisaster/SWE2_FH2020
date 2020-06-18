@@ -11,6 +11,7 @@ namespace SWE2_FH2020
 {
     public sealed class DBConnection : IDAL
     {
+        // singleton Pattern für DB Connections, somit bleibt immer maximal eine Connection offen
         DBConnection()
         {
         }
@@ -33,8 +34,10 @@ namespace SWE2_FH2020
 
         public NpgsqlConnection initialize()
         {
+            // Initialisert, anhand der Konfiguration im App.conf, die DB COnnection
             string connstring = ConfigurationManager.AppSettings.Get("DBUrl");
             NpgsqlConnection db = new NpgsqlConnection(connstring);
+            // mit Connection wird geöffnet
             db.Open();
             return db;
         }
@@ -42,19 +45,24 @@ namespace SWE2_FH2020
         {
             List<Picture> pictureList = new List<Picture>();
             NpgsqlConnection db = DBConnection.Instance.initialize();
+            // mit NpgsqlCommand wird die query gesetzt
             NpgsqlCommand cmd_pic = new NpgsqlCommand("select * from picture left join fotograf on picture.fk_pk_fotograf_id=fotograf.pk_fotograf_id left join exif on picture.fk_pk_exif_id=exif.pk_exif_id left join iptc on picture.fk_pk_iptc_id=iptc.pk_iptc_id", db);
             try
             {
+                // prepare Statement
                 cmd_pic.Prepare();
             }
             catch
             {
                 Console.WriteLine("Invalid query");
             }
+            // damit die Daten von der Query gelesen werden können, muss erst ein reader deklariert werden und mit Read() gelesen werden
             NpgsqlDataReader reader_pic = cmd_pic.ExecuteReader();
+            // reader ist deklariert, somit können wir das Command disposen
             cmd_pic.Dispose();
             while (reader_pic.Read())
             {
+                // mit Get werden die Daten von den Rows gelesen, typus muss im Vorhinein bestimmt werden
                 Picture temp_pic = new Picture();
                 temp_pic.setId(reader_pic.GetInt32(0));
                 temp_pic.setDirectory(reader_pic.GetString(4));
@@ -117,6 +125,7 @@ namespace SWE2_FH2020
             string[] names = name.Split(' ');
             if(names.Length > 2)
             {
+                //Für den Fall, dass der Vorname ein Doppelname ist
                 names[0] = names[0] + " " + names[1];
                 names[1] = names[2];
             }
@@ -140,6 +149,7 @@ namespace SWE2_FH2020
         {
             NpgsqlConnection db = DBConnection.Instance.initialize();
             NpgsqlCommand cmd_addphoto = new NpgsqlCommand("INSERT INTO fotograf(vorname, nachname, geburtsdatum, notiz) values (@p, @q, @r, @s)", db);
+            // beim Prepare statement werden die übermittelten Parameter für die query so gesetzt.
             cmd_addphoto.Parameters.AddWithValue("p", newPhotographer.getVorname());
             cmd_addphoto.Parameters.AddWithValue("q", newPhotographer.getNachname());
             cmd_addphoto.Parameters.AddWithValue("r", newPhotographer.getDate());
@@ -288,6 +298,7 @@ namespace SWE2_FH2020
         }
         public void dropRecreateTables()
         {
+            // loescht alle Tables und erstellt diese wieder, dann werden die Fotografen hinzugefügt
             NpgsqlConnection db = DBConnection.Instance.initialize();
             NpgsqlCommand cmd_picture_drop = new NpgsqlCommand("DROP TABLE IF EXISTS picture cascade;", db);
             cmd_picture_drop.ExecuteNonQuery();
@@ -453,6 +464,7 @@ namespace SWE2_FH2020
             {
                 if (reader_pic.IsDBNull(0))
                     return "";
+                //check, ob Column null ist, wenn ja, wird der string so gesetzt, da sonst ein Error kommt
                 fotoId = reader_pic.GetInt32(0);
             }
             reader_pic.Close();

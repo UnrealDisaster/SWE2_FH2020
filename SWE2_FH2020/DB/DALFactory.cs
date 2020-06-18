@@ -11,6 +11,7 @@ namespace SWE2_FH2020
         public static IDAL getDAL()
         {
             string mode = ConfigurationManager.AppSettings.Get("testDB");
+            // Überprüft anhand des Config files, ob die DALFactory die MockDB oder die echte DB zurück gibt
             if (mode.Equals("1"))
             {
                 return new DALMock();
