@@ -398,7 +398,7 @@ namespace SWE2_FH2020
             reader_getphoto.Close();
             return temp_photo;
         }
-        void setPhotographerToPicture(int id, string name)
+        public void setPhotographerToPicture(int id, string name)
         {
             NpgsqlConnection db = DBConnection.Instance.initialize();
             string[] names = name.Split(' ');
