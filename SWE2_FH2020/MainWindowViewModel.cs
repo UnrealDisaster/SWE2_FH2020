@@ -190,6 +190,7 @@ namespace SWE2_FH2020
                         {
                             var dlg = new FotografInnen();
                             dlg.ShowDialog();
+                            OnPropertyChanged("YAxes");
                         });
                 }
                 return _LayoutsCommand;
