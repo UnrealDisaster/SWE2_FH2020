@@ -18,6 +18,11 @@ namespace SWE2_FH2020
             _imageViewModel.PropertyChanged += (s, e) => OnPropertyChanged("selectedIptcByLine");
             _imageViewModel.PropertyChanged += (s, e) => OnPropertyChanged("selectedIptcCopyright");
             _imageViewModel.PropertyChanged += (s, e) => OnPropertyChanged("CurrentPhotographer");
+            _imageViewModel.PropertyChanged += (s, e) => OnPropertyChanged("selectedExifISOSpeedrating");
+            _imageViewModel.PropertyChanged += (s, e) => OnPropertyChanged("selectedExifMake");
+            _imageViewModel.PropertyChanged += (s, e) => OnPropertyChanged("selectedExifDate");
+            _imageViewModel.PropertyChanged += (s, e) => OnPropertyChanged("selectedExifFlash");
+            _imageViewModel.PropertyChanged += (s, e) => OnPropertyChanged("selectedExifExposure");
 
             _searchViewModel.PropertyChanged += (s, e) => searchWordChanged();
         }
@@ -175,6 +180,70 @@ namespace SWE2_FH2020
                     return "";
                 var bl = new BL();
                 return bl.getNamebyPic(selectedPictureData.getId());
+            }
+        }
+
+        public int selectedExifISOSpeedrating {
+            get {
+                if (_imageViewModel.selectedImage == null)
+                {
+                    return 0;
+                }
+                return _imageViewModel.selectedPictureData.getExif().getIsoSpeedRating();
+            }
+            set {
+                _imageViewModel.selectedPictureData.getExif().setIsoSpeedRating(value);
+            }
+        }
+        public string selectedExifMake {
+            get {
+                if (_imageViewModel.selectedImage == null)
+                {
+                    return "";
+                }
+                return _imageViewModel.selectedPictureData.getExif().getMake();
+            }
+            set {
+                _imageViewModel.selectedPictureData.getExif().setMake(value);
+            }
+
+        }
+        public string selectedExifDate {
+            get {
+                if (_imageViewModel.selectedImage == null)
+                {
+                    return DateTime.Now.ToString();
+                }
+                return _imageViewModel.selectedPictureData.getExif().getDateTime().ToString();
+            }
+            set {
+            }
+        }
+        public string selectedExifFlash {
+            get {
+                if (_imageViewModel.selectedImage == null)
+                {
+                    return "";
+                }
+                if (_imageViewModel.selectedPictureData.getExif().getFlash())
+                {
+                    return "Yes";
+                }
+                return "No";
+            }
+            set {
+            }
+        }
+        public string selectedExifExposure {
+            get {
+                if (_imageViewModel.selectedImage == null)
+                {
+                    return "";
+                }
+                return _imageViewModel.selectedPictureData.getExif().getExposureTime();
+            }
+            set {
+                _imageViewModel.selectedPictureData.getExif().setExposureTime(value);
             }
         }
 

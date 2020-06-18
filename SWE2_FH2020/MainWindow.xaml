@@ -102,15 +102,15 @@
                             <RowDefinition Height="30"/>
                         </Grid.RowDefinitions>
                         <Label Grid.Column="0">ISO Speedrating</Label>
-                        <TextBox Text="{Binding selectedPictureData.IptcData}" Grid.Column="1"></TextBox>
+                        <TextBox IsReadOnly="True" Text="{Binding selectedExifISOSpeedrating}" Grid.Column="1"></TextBox>
                         <Label Grid.Row="1" Grid.Column="0">Make</Label>
-                        <TextBox Grid.Row="1" Grid.Column="1"></TextBox>
+                        <TextBox IsReadOnly="True" Text="{Binding selectedExifMake}" Grid.Row="1" Grid.Column="1"></TextBox>
                         <Label Grid.Row="2" Grid.Column="0">Date</Label>
-                        <TextBox Grid.Row="2" Grid.Column="1"></TextBox>
+                        <TextBox  IsReadOnly="True" Text="{Binding selectedExifDate}" Grid.Row="2" Grid.Column="1"></TextBox>
                         <Label Grid.Row="3" Grid.Column="0">Flash</Label>
-                        <TextBox Grid.Row="3" Grid.Column="1"></TextBox>
+                        <TextBox IsReadOnly="True" Text="{Binding selectedExifFlash}" Grid.Row="3" Grid.Column="1"></TextBox>
                         <Label Grid.Row="4" Grid.Column="0">Exposure</Label>
-                        <TextBox Grid.Row="4" Grid.Column="1"></TextBox>
+                        <TextBox IsReadOnly="True" Text="{Binding selectedExifExposure}" Grid.Row="4" Grid.Column="1"></TextBox>
                         <Button Grid.Column="1" Grid.Row="5">Save</Button>
                     </Grid>
                 </TabItem>
