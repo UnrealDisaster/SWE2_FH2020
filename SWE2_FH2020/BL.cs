@@ -92,5 +92,9 @@ namespace SWE2_FH2020
         {
             _dal.setPhotographerToPicture(id, name);
         }
+        public string getNamebyPic(int id)
+        {
+            return _dal.getPhotographerWithPicture(id);
+        }
     }
 }
