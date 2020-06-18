@@ -365,6 +365,22 @@ namespace SWE2_FH2020
             }
             cmd_addphotoTwo.ExecuteNonQuery();
             cmd_addphotoTwo.Dispose();
+
+            NpgsqlCommand cmd_addphotoThree = new NpgsqlCommand("INSERT INTO fotograf(vorname, nachname, geburtsdatum, notiz) values (@p, @q, @r, @s)", db);
+            cmd_addphotoThree.Parameters.AddWithValue("p", "Leo");
+            cmd_addphotoThree.Parameters.AddWithValue("q", "Gruber");
+            cmd_addphotoThree.Parameters.AddWithValue("r", new DateTime(2001, 4, 9));
+            cmd_addphotoThree.Parameters.AddWithValue("s", "Ich bin eine eine komische Notiz.");
+            try
+            {
+                cmd_addphotoThree.Prepare();
+            }
+            catch
+            {
+                Console.WriteLine("Invalid query");
+            }
+            cmd_addphotoThree.ExecuteNonQuery();
+            cmd_addphotoThree.Dispose();
         }
     }
 }
