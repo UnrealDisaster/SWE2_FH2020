@@ -38,6 +38,14 @@
         <ItemsControl Grid.Row="1" ItemsSource="{Binding Names}" BorderThickness="0">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
+                    <DataTemplate.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Margin" Value="5"></Setter>
+                        </Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Margin" Value="5"></Setter>
+                        </Style>
+                    </DataTemplate.Resources>
                     <StackPanel>
                         <Grid>
                             <Grid.ColumnDefinitions>

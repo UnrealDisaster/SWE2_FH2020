@@ -67,7 +67,6 @@ namespace SWE2_FH2020
 
         public Picture selectedPictureData {
             get {
-                Console.WriteLine("selectedPictureData get");
                 if (_imageViewModel.selectedImage == null)
                 {
                     return null;
@@ -78,7 +77,6 @@ namespace SWE2_FH2020
 
         public DateTime selectedIptcDate {
             get {
-                Console.WriteLine("selectedIptcDate get");
                 if (_imageViewModel.selectedImage == null)
                 {
                     return new DateTime(1, 1, 1);
@@ -169,7 +167,6 @@ namespace SWE2_FH2020
         public void saveSelectedPhotographer()
         {
             var bl = new BL();
-            Console.WriteLine("______________"+selectedPictureData.getId() + " " + _selectedPhotographer.Split(": ")[1]);
             bl.setPhotographerToPic(selectedPictureData.getId(), _selectedPhotographer.Split(": ")[1]);
             OnPropertyChanged("CurrentPhotographer");
         }

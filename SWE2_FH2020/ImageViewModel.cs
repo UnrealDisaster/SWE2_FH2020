@@ -59,14 +59,10 @@ namespace SWE2_FH2020
                     var rand = new Random();
                     foreach (string fileName in Directory.GetFiles(path))
                     {
-                        Console.WriteLine("11111111111111111");
                         var p = Picture.randomPicture(fileName.Split('\\').Last(),i,i);
                         p.setId(i);
                         p.setPhotographerId(ph[rand.Next()%ph.Count()].getId());
-                        Console.WriteLine("222222222222222");
                         _pictureData.Add(p);
-                        Console.WriteLine(p.getExif().getDateTime());
-                        Console.WriteLine(p.getExif().getIsoSpeedRating());
                         var b = new Border();
                         b.BorderThickness = new Thickness(2.0);
                         var img = new Image();
@@ -77,7 +73,6 @@ namespace SWE2_FH2020
                         b.Child = img;
                         b.MouseDown += MouseButtonDownHandler;
                         list.Add(b);
-                        Console.WriteLine("333333333333333333");
                         i++;
                     }
 
@@ -93,15 +88,11 @@ namespace SWE2_FH2020
                     List<Border> temp = new List<Border>();
                     foreach(Border b in _images)
                     {
-                        Console.WriteLine("toolTip: " + b.ToolTip.ToString());
                         if (b.ToolTip.ToString().StartsWith(filter))
                             temp.Add(b);
                     }
-                    Console.WriteLine("Returned Filterd !!! ");
                     return temp;
                 }
-
-                Console.WriteLine("Returned Un-Filterd !!! ");
                 return _images;
             }
         }
@@ -134,8 +125,6 @@ namespace SWE2_FH2020
 
                 var ex = _selectedPictureData.getExif();
                 var ip = _selectedPictureData.getIptc();
-                Console.WriteLine(ex.getDateTime() + " " + ex.getExposureTime());
-                Console.WriteLine(ip.getByLine() + " " +ip.getCopyright());
                 OnPropertyChanged("");
             }
         }
