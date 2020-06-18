@@ -146,5 +146,9 @@ namespace SWE2_FH2020
         {
             throw new NotImplementedException();
         }
+        public string getPhotographerWithPicture(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

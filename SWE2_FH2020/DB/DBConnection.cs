@@ -431,5 +431,46 @@ namespace SWE2_FH2020
             cmd_photo.ExecuteNonQuery();
             cmd_photo.Dispose();
         }
+        public string getPhotographerWithPicture(int id)
+        {
+            string temp = "";
+            NpgsqlConnection db = DBConnection.Instance.initialize();
+            int fotoId = 0;
+            NpgsqlCommand cmd_picture = new NpgsqlCommand("select fp_pk_fotograf_id from picture where picture_id = @p", db);
+            cmd_picture.Parameters.AddWithValue("p", id);
+            try
+            {
+                cmd_picture.Prepare();
+            }
+            catch
+            {
+                Console.WriteLine("Invalid query");
+            }
+            NpgsqlDataReader reader_pic = cmd_picture.ExecuteReader();
+            cmd_picture.Dispose();
+            while (reader_pic.Read())
+            {
+                fotoId = reader_pic.GetInt32(0);
+            }
+            reader_pic.Close();
+
+            NpgsqlCommand cmd_photo = new NpgsqlCommand("select vorname, nachname from fotograf where fk_fotograf_id = @p", db);
+            cmd_photo.Parameters.AddWithValue("p", fotoId);
+            try
+            {
+                cmd_photo.Prepare();
+            }
+            catch
+            {
+                Console.WriteLine("Invalid query");
+            }
+            NpgsqlDataReader reader_photo = cmd_photo.ExecuteReader();
+            cmd_photo.Dispose();
+            while (reader_pic.Read())
+            {
+                temp = reader_pic.GetString(0) + reader_pic.GetString(1);
+            }
+            return temp;
+        }
     }
 }

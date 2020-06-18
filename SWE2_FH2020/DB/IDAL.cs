@@ -20,5 +20,6 @@ namespace SWE2_FH2020
         void dropRecreateTables();
         Photographer getPhotographerById(int id);
         void setPhotographerToPicture(int id, string name);
+        string getPhotographerWithPicture(int id);
     }
 }
