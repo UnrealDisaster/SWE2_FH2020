@@ -102,7 +102,7 @@
                             <RowDefinition Height="30"/>
                         </Grid.RowDefinitions>
                         <Label Grid.Column="0">ISO Speedrating</Label>
-                        <TextBox Text="{Binding selectedPictureData.IptcData.}" Grid.Column="1"></TextBox>
+                        <TextBox Text="{Binding selectedPictureData.IptcData}" Grid.Column="1"></TextBox>
                         <Label Grid.Row="1" Grid.Column="0">Make</Label>
                         <TextBox Grid.Row="1" Grid.Column="1"></TextBox>
                         <Label Grid.Row="2" Grid.Column="0">Date</Label>
@@ -113,6 +113,18 @@
                         <TextBox Grid.Row="4" Grid.Column="1"></TextBox>
                         <Button Grid.Column="1" Grid.Row="5">Save</Button>
                     </Grid>
+                </TabItem>
+                <TabItem  Header="FotografIn">
+                    <StackPanel Margin="5">
+
+                        <ComboBox Margin="5" Grid.Column="0" Grid.Row="0" SelectedValue="{Binding SelectedPhotographer, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0"  Height="22"
+                               Width="300"
+                                 ItemsSource="{Binding YAxes}"/>
+                        <Button Margin="5" Click="Save_Photographer" Grid.Column="0" Grid.Row="1">
+                            Save
+                        </Button>
+                        <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding CurrentPhotographer}"></TextBlock>
+                    </StackPanel>
                 </TabItem>
             </TabControl>
             

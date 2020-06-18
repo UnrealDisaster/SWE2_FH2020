@@ -62,7 +62,7 @@ namespace SWE2_FH2020
                         Console.WriteLine("11111111111111111");
                         var p = Picture.randomPicture(fileName.Split('\\').Last(),i,i);
                         p.setId(i);
-                        p.setPhotographer(ph[rand.Next()%ph.Count()]);
+                        p.setPhotographerId(ph[rand.Next()%ph.Count()].getId());
                         Console.WriteLine("222222222222222");
                         _pictureData.Add(p);
                         Console.WriteLine(p.getExif().getDateTime());

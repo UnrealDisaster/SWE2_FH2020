@@ -12,13 +12,14 @@ namespace SWE2_FH2020
     {
         public MainWindowViewModel()
         {
-            _imageViewModel.PropertyChanged += (s, e) => OnPropertyChanged("selectedImage"); 
+            _imageViewModel.PropertyChanged += (s, e) => OnPropertyChanged("selectedImage");
             _imageViewModel.PropertyChanged += (s, e) => OnPropertyChanged("selectedIptcDate");
             _imageViewModel.PropertyChanged += (s, e) => OnPropertyChanged("selectedIptcTime");
             _imageViewModel.PropertyChanged += (s, e) => OnPropertyChanged("selectedIptcByLine");
             _imageViewModel.PropertyChanged += (s, e) => OnPropertyChanged("selectedIptcCopyright");
+            _imageViewModel.PropertyChanged += (s, e) => OnPropertyChanged("CurrentPhotographer");
 
-           _searchViewModel.PropertyChanged += (s, e) => searchWordChanged();
+            _searchViewModel.PropertyChanged += (s, e) => searchWordChanged();
         }
 
         private void searchWordChanged()
@@ -75,7 +76,7 @@ namespace SWE2_FH2020
                 Console.WriteLine("selectedIptcDate get");
                 if (_imageViewModel.selectedImage == null)
                 {
-                    return new DateTime(1,1,1);
+                    return new DateTime(1, 1, 1);
                 }
                 return _imageViewModel.selectedPictureData.getIptc().getDate();
             }
@@ -133,6 +134,48 @@ namespace SWE2_FH2020
         {
             var bl = new BL();
             bl.savePictureData(selectedPictureData);
+        }
+
+
+        public IEnumerable<ComboBoxItem> YAxes{
+            get{
+                var bl = new BL();
+                var ya = new List<ComboBoxItem>();
+                foreach(string s in bl.photographerList())
+                {
+                    var cbi = new ComboBoxItem();
+                    cbi.Content = s;
+                    ya.Add(cbi);
+                }
+                return ya;
+            }
+        }
+
+        private string _selectedPhotographer = "";
+        public string SelectedPhotographer {
+            get {
+                return _selectedPhotographer;
+            }
+            set {
+                _selectedPhotographer = value;
+            }
+        }
+
+        public void saveSelectedPhotographer()
+        {
+            var bl = new BL();
+            Console.WriteLine("______________"+selectedPictureData.getId() + " " + _selectedPhotographer.Split(": ")[1]);
+            bl.setPhotographerToPic(selectedPictureData.getId(), _selectedPhotographer.Split(": ")[1]);
+            OnPropertyChanged("CurrentPhotographer");
+        }
+
+        public string CurrentPhotographer {
+            get {
+                if (selectedPictureData == null)
+                    return "";
+                var bl = new BL();
+                return bl.getNamebyPic(selectedPictureData.getId());
+            }
         }
 
         private ICommandViewModel _LayoutsCommand;

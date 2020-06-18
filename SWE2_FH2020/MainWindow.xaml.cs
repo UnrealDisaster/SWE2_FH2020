@@ -45,6 +45,12 @@ namespace SWE2_FH2020
             mainvm.saveSelectedIPTC();
 
         }
+        private void Save_Photographer(object sender, RoutedEventArgs e)
+        {
+            var mainvm = (MainWindowViewModel)this.DataContext;
+            mainvm.saveSelectedPhotographer();
+
+        }
         private void Open_Fotografen(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("Wörks");
