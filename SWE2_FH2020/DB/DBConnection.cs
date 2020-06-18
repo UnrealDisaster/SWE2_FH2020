@@ -279,12 +279,10 @@ namespace SWE2_FH2020
                 cmd_iptc.ExecuteNonQuery();
                 cmd_iptc.Dispose();
 
-                NpgsqlCommand cmd_pic = new NpgsqlCommand("INSERT INTO picture (fk_pk_exif_id, fk_pk_iptc_id, fk_pk_fotograf_id, directory) values (@p, @q, @r, @s)", db);
+                NpgsqlCommand cmd_pic = new NpgsqlCommand("INSERT INTO picture (fk_pk_exif_id, fk_pk_iptc_id, directory) values (@p, @q, @r)", db);
                 cmd_pic.Parameters.AddWithValue("p", p.getExif().getId());
                 cmd_pic.Parameters.AddWithValue("q", p.getIptc().getId());
-                cmd_pic.Parameters.AddWithValue("r", p.getPhotographer().getId());
-                cmd_pic.Parameters.AddWithValue("s", p.getDirectory());
-                cmd_pic.Parameters.AddWithValue("t", p.getId());
+                cmd_pic.Parameters.AddWithValue("r", p.getDirectory());
                 cmd_pic.ExecuteNonQuery();
                 cmd_pic.Dispose();
             }
@@ -304,37 +302,37 @@ namespace SWE2_FH2020
         public void dropRecreateTables()
         {
             NpgsqlConnection db = DBConnection.Instance.initialize();
-            NpgsqlCommand cmd_picture_drop = new NpgsqlCommand("DROP TABLE picture cascade;", db);
+            NpgsqlCommand cmd_picture_drop = new NpgsqlCommand("DROP TABLE IF EXISTS picture cascade;", db);
             cmd_picture_drop.ExecuteNonQuery();
             cmd_picture_drop.Dispose();
 
-            NpgsqlCommand cmd_exif_drop = new NpgsqlCommand("DROP TABLE picture cascade;", db);
+            NpgsqlCommand cmd_exif_drop = new NpgsqlCommand("DROP TABLE IF EXISTS exif cascade;", db);
             cmd_exif_drop.ExecuteNonQuery();
             cmd_exif_drop.Dispose();
 
-            NpgsqlCommand cmd_iptc_drop = new NpgsqlCommand("DROP TABLE picture cascade;", db);
+            NpgsqlCommand cmd_iptc_drop = new NpgsqlCommand("DROP TABLE IF EXISTS iptc cascade;", db);
             cmd_iptc_drop.ExecuteNonQuery();
             cmd_iptc_drop.Dispose();
 
-            NpgsqlCommand cmd_foto_drop = new NpgsqlCommand("DROP TABLE picture cascade;", db);
+            NpgsqlCommand cmd_foto_drop = new NpgsqlCommand("DROP TABLE IF EXISTS fotograf cascade;", db);
             cmd_foto_drop.ExecuteNonQuery();
             cmd_foto_drop.Dispose();
 
-            NpgsqlCommand cmd_foto_create = new NpgsqlCommand("CREATE TABLE fotograf (pk_fotograf_id serial PRIMARY KEY, vorname varchar(100) NOT NULL, nachname varchar(50) NOT NULL, geburtsdatum DATE NOT NULL, notiz varchar, CONSTRAINT 'ch_geburtsdatum' CHECK(geburtsdatum <= CURRENT_DATE)); ", db);
-            cmd_picture_drop.ExecuteNonQuery();
-            cmd_picture_drop.Dispose();
+            NpgsqlCommand cmd_foto_create = new NpgsqlCommand("CREATE TABLE fotograf (pk_fotograf_id serial PRIMARY KEY, vorname varchar(100) NOT NULL, nachname varchar(50) NOT NULL, geburtsdatum DATE NOT NULL, notiz varchar); ", db);
+            cmd_foto_create.ExecuteNonQuery();
+            cmd_foto_create.Dispose();
 
             NpgsqlCommand cmd_exif_create = new NpgsqlCommand("CREATE TABLE exif (pk_exif_id serial PRIMARY KEY, iso_speed_ratings INT, make VARCHAR, date_time DATE, flash BOOLEAN, exposuretime VARCHAR); ", db);
-            cmd_exif_drop.ExecuteNonQuery();
-            cmd_exif_drop.Dispose();
+            cmd_exif_create.ExecuteNonQuery();
+            cmd_exif_create.Dispose();
 
             NpgsqlCommand cmd_iptc_create = new NpgsqlCommand("CREATE TABLE iptc (pk_iptc_id serial PRIMARY KEY, date_created DATE, time_created TIME, by_line VARCHAR, copyright VARCHAR); ", db);
-            cmd_iptc_drop.ExecuteNonQuery();
-            cmd_iptc_drop.Dispose();
+            cmd_iptc_create.ExecuteNonQuery();
+            cmd_iptc_create.Dispose();
 
-            NpgsqlCommand cmd_picture_create = new NpgsqlCommand("CREATE TABLE picture (picture_id serial PRIMARY KEY, fk_pk_exif_id int NOT NULL, fk_pk_iptc_id int NOT NULL, fk_pk_fotograf_id int, directory VARCHAR NOT NULL, CONSTRAINT 'ck_pk_exif_id' FOREIGN KEY('fk_pk_exif_id') REFERENCES 'exif'('pk_exif_id'), CONSTRAINT 'ck_pk_iptc_id' FOREIGN KEY('fk_pk_iptc_id') REFERENCES 'iptc'('pk_iptc_id'), CONSTRAINT 'ck_pk_fotograf_id' FOREIGN KEY('fk_pk_fotograf_id') REFERENCES 'fotograf'('pk_fotograf_id') ON DELETE SET NULL); ", db);
-            cmd_picture_drop.ExecuteNonQuery();
-            cmd_picture_drop.Dispose();
+            NpgsqlCommand cmd_picture_create = new NpgsqlCommand("CREATE TABLE picture (picture_id serial PRIMARY KEY, fk_pk_exif_id int NOT NULL, fk_pk_iptc_id int NOT NULL, fk_pk_fotograf_id int, directory VARCHAR NOT NULL, CONSTRAINT \"ck_pk_exif_id\" FOREIGN KEY(\"fk_pk_exif_id\") REFERENCES \"exif\"(\"pk_exif_id\"), CONSTRAINT \"ck_pk_iptc_id\" FOREIGN KEY(\"fk_pk_iptc_id\") REFERENCES \"iptc\"(\"pk_iptc_id\"), CONSTRAINT \"ck_pk_fotograf_id\" FOREIGN KEY(\"fk_pk_fotograf_id\") REFERENCES \"fotograf\"(\"pk_fotograf_id\") ON DELETE SET NULL); ", db);
+            cmd_picture_create.ExecuteNonQuery();
+            cmd_picture_create.Dispose();
 
             NpgsqlCommand cmd_addphoto = new NpgsqlCommand("INSERT INTO fotograf(vorname, nachname, geburtsdatum, notiz) values (@p, @q, @r, @s)", db);
             cmd_addphoto.Parameters.AddWithValue("p", "Marius");

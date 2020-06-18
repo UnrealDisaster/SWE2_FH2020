@@ -54,11 +54,11 @@ namespace SWE2_FH2020
         }
         public void printReport(Picture p)
         {
+            Console.WriteLine("Printing .........................");
             string startupPath = System.IO.Directory.GetCurrentDirectory();
             string pathReport = startupPath + "../../../../reports/";
             string pathPicture = startupPath + "../../../../res/";
 
-            // DAS ZUR ZEIT AUSGEWÄHLTE BILD
             string pic = p.getDirectory();
             string name = pic.Split('.')[0];
 
@@ -83,6 +83,10 @@ namespace SWE2_FH2020
             var pdf = htmlToPdf.RenderHtmlAsPdf(html);
             // save resulting pdf into file
             pdf.SaveAs(pathReport + name + ".Pdf");
+        }
+        public void newDB()
+        {
+            _dal.dropRecreateTables();
         }
     }
 }
